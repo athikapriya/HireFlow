@@ -1,0 +1,37 @@
+
+{% load static %}
+<!-- =============== sidebar starts here =============== -->
+<aside class="brand-color__background vh-100 d-flex  align-content-between">
+
+    <nav class="d-flex flex-column p-3 w-100">
+
+        <!-- =============== logo starts =============== -->
+        <div style="height: 25px; margin-bottom: 2.2rem;" class="text-center d-flex align-items-center justify-content-center gap-1 mt-2">
+            <img src="{% static 'images/logo.webp' %}" alt="HireFlow logo" style="height: 100%;">
+            <h1 class="text-white mb-0 ">Hireflow</h1>
+        </div>
+        <!-- =============== logo ends =============== -->
+    
+        <!-- =============== nav link starts =============== -->
+        {% if request.user.is_authenticated %}
+            {% if request.user.role == 'employer' %}
+
+            {% include 'base/partials/employer_sidebar.html' %}
+
+            {% else %}
+
+            {% include 'base/partials/candidate_sidebar.html' %}
+
+            {% endif %}
+        {% endif %}
+        <!-- =============== nav link ends =============== -->
+
+        <hr>
+
+        <div class="mt-auto text-center text-white" style="font-size: 0.88rem;">
+            <small>© 2026 HireFlow</small>
+        </div>
+
+    </nav>
+</aside>
+<!-- =============== sidebar ends here =============== -->
