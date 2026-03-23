@@ -1,0 +1,247 @@
+
+.section-bg{
+    background-color: #fff;
+    box-shadow: 1px 1px 5px #bed0e1;
+}
+
+.main-section__header{
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #dde0e2;
+}
+
+.main-section__header .main-heading{
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.table th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color : var(--tertiary-color);
+}
+
+table tr{
+    font-size: 13px;
+}
+
+.table-nowrap th,
+.table-nowrap td {
+    white-space: nowrap;
+}
+
+.table td,
+.table th {
+    padding:  0.4rem 0.6rem;
+}
+
+/* =============== company name and logo starts here =============== */
+.logo-box {
+    width: 30px;
+    height: 30px;
+    padding: 3px;
+}
+
+.company-logo {
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.company-name {
+    font-size: 13px;
+}
+/* =============== company logo end name ends here =============== */
+
+
+/* =============== experience badge starts here =============== */
+
+
+.badge-ft {
+    background-color: rgba(64, 81, 137, 0.2);
+    color: var(--brand-color);
+}
+
+.badge-pt {
+    background-color: rgba(10, 179, 156, 0.2);
+    color: var(--brand-support);
+}
+
+.badge-ct {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #b78900;
+}
+
+.badge-in {
+    background-color: rgba(13, 202, 240, 0.2);
+    color: #0aa2c0;
+}
+
+.badge-fl {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+}
+/* =============== experience badge ends here =============== */
+
+.salary{
+    color: var(--brand-support);
+}
+
+
+/* =============== skill badge starts here =============== */
+.skill-badge {
+    background-color: #f0f0f1; 
+    color: var(--tertiary-color);
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 50px;
+    margin-right: 4px;
+    display: inline-block;
+    margin-bottom: 3px;
+}
+
+.more-badge {
+    background-color: rgba(64, 81, 137, 0.1);
+    color: var(--brand-color);
+}
+/* =============== skill badge ends here =============== */
+
+
+/* =============== status badge starts here =============== */
+.status-badge, .badge-custom {
+    font-size: 12px;
+    padding: 4px 9px;
+    border-radius: 50px;
+    font-weight: 500;
+}
+
+.status-active {
+    background-color: rgba(10, 179, 156, 0.15);
+    color: var(--brand-support);
+}
+
+.status-closed {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+}
+/* =============== status badge ends here =============== */
+
+.actions a{
+    display: inline-block;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.6rem;
+    transition: var(--transition);
+}
+
+.actions a:hover{
+    color: #fff !important;
+}
+
+.actions .edit-job{
+    background: rgba(13, 202, 240, 0.15);
+    color: #0aa2c0;
+}
+
+.actions .delete-job{
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+}
+
+.actions .restore-job{
+    background-color: rgba(10, 179, 156, 0.2);
+    color: var(--brand-support);
+}
+
+.actions .edit-job:hover{
+    background-color: #0aa2c0;
+}
+
+.actions .delete-job:last-child:hover{
+    background-color: #dc3545;
+}
+
+.actions .restore-job:hover{
+    background-color: var(--brand-support);
+}
+
+/* =============== job form starts =============== */
+.form-select {
+    color: var(--secondary-color) ; 
+    font-size: 0.85rem ;  
+}
+
+.form-select[multiple] {
+    height: auto;      
+    min-height: calc(1.5em + 0.75rem + 2px); 
+    overflow-y: auto;    
+}
+
+.form-select option[disabled][selected] {
+    color: var(--secondary-color);
+    font-size: 0.85rem;
+}
+
+.main-section__body .btn-submit {
+    background-color: var(--brand-color);
+    color: white;
+    transition: var(--transition);
+}
+
+.main-section__body .btn-submit:hover, .main-section__body .btn-submit:active {
+    background-color: var(--brand-color) !important;
+    color: var(--quaternary-color) !important;
+}
+
+.main-section__body label{
+    margin-bottom: 6px;
+    font-size: 13px;
+    color: var(--tertiary-color);
+    font-weight: 500;
+    letter-spacing: 0.02rem;
+}
+
+.form-control::placeholder, .form-select option::placeholder{
+    color: var(--secondary-color);
+    font-size: 0.85rem;
+}
+
+input[type="date"].form-control {
+    border-radius: 0%;
+    color: var(--secondary-color);
+    font-size: 0.85rem;
+    padding: 0.375rem 0.75rem; 
+    height: calc(1.5em + 0.75rem + 2px);
+    transition: var(--transition);
+}
+
+input[type="date"].form-control:focus {
+    color: var(--tertiary-color);
+    outline: none !important;    
+    box-shadow: none !important;    
+    background-color: transparent !important;
+}
+
+input[type="file"].form-control {
+    border-radius: 0%;
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+    padding: 0.375rem 0.75rem;
+    height: calc(1.5em + 0.75rem + 2px);
+    transition: var(--transition);
+}
+
+input[type="file"].form-control:hover,
+input[type="file"].form-control:focus {
+    outline: none !important;    
+    box-shadow: none !important;    
+    background-color: transparent !important;
+}
+/* =============== job form ends =============== */
+
+
+@media (max-width: 768px) {
+    .table td,
+    .table th {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.9rem;
+    }
+}

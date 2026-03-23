@@ -1,0 +1,180 @@
+
+{% extends 'base/main.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/jobs/jobs.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section id="manage_jobs">
+
+    <!-- page title -->
+    {% include 'base/page_title.html' %}
+
+    <!-- =============== main section starts here =============== -->
+    <div class="container-fluid my-3 content-section">
+
+        <!-- =============== filter starts =============== -->
+        <div class="filter-section section-bg py-3">
+            <div class="mx-3">
+
+                <div class="d-flex justify-content-end ">
+                    <a href="{% url 'create_job' %}" class="d-flex gap-2 text-decoration-none align-items-center mybtn">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Create New Job</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        <!-- =============== filter ends =============== -->
+
+        <!-- =============== job lists starts =============== -->
+        <div class="all-jobs section-bg py-3 mt-4">
+            <div class="mx-3">
+                    
+                <div class="main-section__header">
+                    <h3 class="main-heading ms-2 mb-0">All Jobs</h3>
+                </div>
+
+                <div class="main-section__body">
+
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle table-nowrap table-hover">
+
+                            <thead class="table-secondary">
+                                <th>Company Name</th>
+                                <th>Designation</th>
+                                <th>Type</th>
+                                <th>Experience</th>
+                                <th>Salary</th>
+                                <th>Skills</th>
+                                <th>Status</th>
+                                <th>Deadline</th>
+                                <th class="text-center">Actions</th>
+                            </thead>
+
+                            <tbody>
+                                {% for job in jobs %}
+                                
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="logo-box d-flex align-items-center justify-content-center">
+                                                {% if job.company_logo %}
+                                                    <img src="{{ job.company_logo.url }}" alt="Logo" class="company-logo h-100 w-100">
+                                                {% else %}
+                                                    <img src="{% static 'images/default_logo.png' %}" alt="Logo" class="company-logo w-100 h-100">
+                                                {% endif %}
+                                            </div>
+                                            <span class="company-name tertiary-color fw-medium">{{ job.company_name }}</span>
+                                        </div>
+                                    </td>
+
+                                    <td>{{ job.title }}</td>
+
+                                    <td>
+                                        <span class="badge-custom py-1 px-2 rounded-4 
+                                            {% if job.employment_type == 'FT' %}badge-ft
+                                            {% elif job.employment_type == 'PT' %}badge-pt
+                                            {% elif job.employment_type == 'CT' %}badge-ct
+                                            {% elif job.employment_type == 'IN' %}badge-in
+                                            {% elif job.employment_type == 'FL' %}badge-fl
+                                            {% endif %}">
+                                            {{ job.get_employment_type_display }}
+                                        </span>
+                                    </td>
+
+                                    <td>{{ job.experience }}</td>
+
+                                    <td>
+                                        {% if job.salary %}
+                                            <span class="salary fw-medium">$ {{ job.salary }}</span>
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if job.skills.exists %}
+    
+                                            {% for skill in job.skills.all|slice:":3" %}
+                                                <span class="skill-badge">{{ skill.name }}</span>
+                                            {% endfor %}
+
+                                            {% if job.skills.count > 3 %}
+                                                <span class="skill-badge more-badge">
+                                                    +{{ job.skills.count|add:"-3" }}
+                                                </span>
+                                            {% endif %}
+
+                                        {% else %}
+                                            <span>N/A</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if job.is_active %}
+                                            <span class="status-badge status-active">Active</span>
+                                        {% else %}
+                                            <span class="status-badge status-closed">Closed</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if job.deadline %}
+                                            {{ job.deadline }}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+
+                                    <td class="actions">
+                                        {% if job.is_active %}
+                                        <div class="d-flex justify-content-center gap-4">
+                                            <a href="{% url 'edit_job' job.id %}" aria-label="edit" class="edit-job">
+                                                <i class="fa-solid fa-pen"></i>
+                                            </a>
+                                            <a href="{% url 'delete_job' job.id %}" aria-label="delete" class="delete-job">
+                                                <i class="fa-solid fa-trash-arrow-up"></i>
+                                            </a>
+                                        </div>
+                                        {% else %}
+                                            <div class="d-flex justify-content-center gap-4">
+                                                <a href="{% url 'restore_job' job.id %}" aria-label="restore" class="restore-job">
+                                                   <i class="fa-solid fa-rotate-left"></i>
+                                                </a>
+                                                <a href="{% url 'restore_job' job.id %}" aria-label="edit" class="edit-job">
+                                                    <i class="fa-solid fa-pen"></i>
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+                                <tr>
+                                    <td colspan="9" class="text-center text-muted py-3 bg-light">No jobs found.</td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- =============== job list ends =============== -->
+            
+    </div>
+    <!-- =============== main section ends here =============== -->
+
+
+</section>
+{% endblock %}

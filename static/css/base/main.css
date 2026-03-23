@@ -29,6 +29,10 @@ h1, h2, h3, h4, h5, h6{
     font-family: "Ubuntu", sans-serif;
 }
 
+.form-control, .btn-submit, .btn-warning{
+    border-radius: 0%;
+}
+
 .btn:focus,
 .btn:active,
 .form-control:focus,
@@ -37,6 +41,7 @@ h1, h2, h3, h4, h5, h6{
     box-shadow: none !important;    
     background-color: transparent !important;
     color: var(--tertiary-color);
+    border-radius: 0;
 }
 
 .card{
@@ -47,6 +52,26 @@ h1, h2, h3, h4, h5, h6{
     font-size: 1.1rem;
     font-weight: 500;
     color: var(--tertiary-color);
+}
+
+.mybtn{
+    background-color: var(--brand-color);
+    padding: 8px 14px;
+    color: var(--quaternary-color);
+    font-size: 0.88rem;
+    transition: var(--transition);
+}
+
+.mybtn i{
+    font-size: 0.8rem;
+}
+
+.mybtn:hover{
+    background-color: var(--brand-support);
+}
+
+.content-section{
+    margin-bottom: 70px !important;
 }
 /* =============== common code ends here =============== */
 

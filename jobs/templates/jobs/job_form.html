@@ -1,0 +1,110 @@
+{% extends 'base/main.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/jobs/jobs.css' %}">
+{% endblock %}
+
+{% block content %}
+<section id="job_form">
+    
+    <!-- page title -->
+    {% include 'base/page_title.html' %}
+
+    <!-- =============== main section starts here =============== -->
+    <div class="container-fluid mt-3 content-section">
+
+        <div class="job-form section-bg py-2">
+            <div class="mx-3">
+
+                <div class="main-section__header">
+                    <h3 class="main-heading ms-2 mb-0">{{ page_title }}</h3>
+                </div>
+
+                <div class="main-section__body mt-3">
+                    
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row g-4">
+
+                            <!-- company name -->
+                            <div class="col-sm-6">
+                                {{form.company_name.label_tag}}
+                                {{form.company_name}}
+                            </div>
+
+                            <!-- title -->
+                            <div class="col-sm-6">
+                                {{form.title.label_tag}}
+                                {{form.title}}
+                            </div>
+
+                            <!-- salary -->
+                            <div class="col-sm-6">
+                                {{ form.salary.label_tag }}
+                                {{ form.salary }}
+                            </div>
+
+                            <!-- location -->
+                            <div class="col-sm-6">
+                                {{ form.location.label_tag }}
+                                {{ form.location }}
+                            </div>
+
+                            <!-- employment type -->
+                            <div class="col-sm-6">
+                                {{ form.employment_type.label_tag }}
+                                {{ form.employment_type }}
+                            </div>
+
+                            <!-- experience -->
+                            <div class="col-sm-6">
+                                {{ form.experience.label_tag }}
+                                {{ form.experience }}
+                            </div>
+
+                            <!-- skills -->
+                            <div class="col-sm-6">
+                                {{ form.skills.label_tag }}
+                                {{ form.skills }}
+                            </div>
+
+                            <!-- logo -->
+                            <div class="col-sm-6">
+                                {{ form.company_logo.label_tag }}
+                                {{ form.company_logo }}
+                            </div>
+
+                            <!-- deadline -->
+                            <div class="col-sm-6">
+                                {{ form.deadline.label_tag }}
+                                {{ form.deadline }}
+                            </div>
+
+                            <!-- description -->
+                            <div class="col-12">
+                                {{ form.description.label_tag }}
+                                {{ form.description }}
+                            </div>
+
+
+                            <!-- submit btn -->
+                            <div class="d-flex justify-content-end gap-3 my-3">
+                                <a href="{% url 'manage_jobs' %}" class="btn btn-warning">Cancel</a>
+                                <button type="submit" class="btn btn-submit">Add Job</button>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}
