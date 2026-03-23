@@ -1,0 +1,24 @@
+
+
+.dashboard-card .card{
+    background: linear-gradient(135deg, #405189, #0AB39C);
+    box-shadow: 1px 1px 5px #bed0e1;
+    padding: 1.2rem;
+}
+
+.dashboard-card .card .job-num{
+    font-size: 1.2rem;
+}
+
+.dashboard-card .card .card-heading{
+    font-size: 1rem;
+}
+
+.dashboard-card .card .icon-box{
+    background-color: #ffffff33;
+    padding: 0.3rem ;
+}
+
+.dashboard-card .card .icon-box i{
+    font-size: 0.9rem;
+}

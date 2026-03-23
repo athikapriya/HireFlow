@@ -78,23 +78,28 @@ def logout_user(request):
 
 # =============== employer dashboard view ===============
 def employer_dashboard(request):
+    page_title = "Dashboard"
     context = {
         # Example placeholders:
         # 'total_jobs': 0,
         # 'total_applications': 0,
         # 'active_jobs': 0,
         # 'shortlisted_candidates': 0,
+        "page_title" : page_title
     }
     return render(request, 'accounts/employer_dashboard.html', context)
 
 
 # =============== candidate dashboard view ===============
 def candidate_dashboard(request):
+    page_title = "Dashboard"
+
     context = {
         # Example placeholders:
         # 'applied_jobs': 0,
         # 'interviewed_jobs': 0,
         # 'job_offers': 0,
         # 'saved_jobs': 0,
+        "page_title" : page_title
     }
     return render(request, 'accounts/candidate_dashboard.html', context)

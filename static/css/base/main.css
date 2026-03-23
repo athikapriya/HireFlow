@@ -42,6 +42,12 @@ h1, h2, h3, h4, h5, h6{
 .card{
     border: none;
 }
+
+.main-heading{
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--tertiary-color);
+}
 /* =============== common code ends here =============== */
 
 
@@ -209,3 +215,23 @@ footer .footer-contents{
     color: var(--secondary-color);
 }
 /* =============== footer ends here =============== */
+
+
+
+/* =============== section header starts here =============== */
+.section-header{
+  background-color: #fff;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  box-shadow: 1px 1px 5px #bed0e1;
+}
+
+.section-header .page-name{
+  font-size: 0.8rem;
+  color: var(--secondary-color);
+}
+
+.section-header .page-name span:last-child, .section-header .page-name .fa-solid{
+  color: var(--tertiary-color);
+}
+/* =============== section header ends here =============== */

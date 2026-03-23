@@ -1,5 +1,20 @@
 {% extends 'base/main.html' %}
 
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/accounts/dashboard.css' %}">
+{% endblock %}
+
 {% block content %}
-<h1>employer Dashbaord</h1>
+<div id="dashboard">
+    
+    <!-- page title -->
+    {% include 'base/page_title.html' %}
+
+    <!-- dashboard card -->
+    {% include 'accounts/dashboard_cards.html' %}
+
+</div>
+
 {% endblock %}

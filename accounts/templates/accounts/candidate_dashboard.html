@@ -1,1 +1,20 @@
-<h1>candidate dashboard</h1>
+{% extends 'base/main.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/accounts/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="dashboard">
+    
+    <!-- page title -->
+    {% include 'base/page_title.html' %}
+
+    <!-- dashboard card -->
+    {% include 'accounts/dashboard_cards.html' %}
+
+</div>
+
+{% endblock %}
