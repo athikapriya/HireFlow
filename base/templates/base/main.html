@@ -35,15 +35,44 @@
 <body>
 
 
-    {% include 'base/navbar.html' %}
-    
-    <main>
-        {% block content %} 
-        {% endblock %}
-    </main>
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- sidebar -->
+                <div class="col-md-3 col-lg-2 px-0">
+                    <div id="sidebar">
+                        {% include 'base/sidebar.html' %}
+                    </div>
+                </div>
+
+                <!-- main content section -->
+                <div class="col-12 col-md-9 col-lg-10 px-0">
+
+                    <!-- topbar -->
+                    <div id="topbar">
+                        {% include 'base/topbar.html' %}
+                    </div>
+                    
+                    <div id="mobile-navbar">
+                        {% include 'base/mobile_navbar.html' %}
+                    </div>
+
+                    <main>
+                        {% block content %}
+
+                        {% endblock %}
+                    </main>
+
+                    <!-- footer -->
+                    {% include 'base/footer.html' %}
+
+                </div>
+            </div>
+        </div>
+    </section>
 
 
-    {% include 'base/footer.html' %}
 
 
 

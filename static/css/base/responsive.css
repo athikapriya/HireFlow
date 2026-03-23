@@ -7,6 +7,10 @@
 /* =============== xl screen =============== */
 @media screen and (max-width: 1200px) {
     
+    /* =============== sidebar nav =============== */
+    .nav-link{
+        font-size: 0.9rem;
+    }
 }
 
 
@@ -14,13 +18,20 @@
 /* =============== lg screen =============== */
 @media screen and (max-width: 992px) {
 
+
 }
 
 
 
 /* =============== md screen =============== */
 @media screen and (max-width: 768px) {
-    
+    #sidebar, #topbar{
+        display: none !important;
+    }
+
+    #mobile-navbar{
+        display: block;
+    }
 }
 
 
