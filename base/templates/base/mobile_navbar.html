@@ -1,0 +1,84 @@
+
+{% load static %}
+<nav class="navbar navbar-expand-lg brand-color__background py-3">
+  <div class="container-fluid">
+
+    <!-- =============== logo starts =============== -->
+    <div style="height: 25px;" class="text-center d-flex align-items-center justify-content-center gap-1">
+        <img src="{% static 'images/logo.webp' %}" alt="HireFlow logo" style="height: 100%;">
+        <h1 class="text-white mb-0">Hireflow</h1>
+    </div>
+    <!-- =============== logo ends =============== -->
+
+    <!-- =============== user profile image and toggler starts =============== -->    
+    <div class="d-flex align-items-center justify-content-between gap-3 gap-sm-4">
+
+        <div class="d-flex align-items-ceter gap-1">
+            <!-- image -->
+            {% if request.user.is_authenticated %}
+                <div class="profile-image me-2">
+                    {% if request.user.profile_image %}
+                        <img src="{{ request.user.profile_image.url }}" alt="{{ request.user.username }}" class="avatar">
+                    {% else %}
+                        <img src="{% static 'images/profile.svg' %}" alt="user" class="avatar">
+                    {% endif %}
+                </div>
+            {% endif %}
+            
+            <!-- name and designation -->
+            <div>
+                <span style="display: block; font-size: 0.85rem;" class="fw-semibold text-capitalize text-white">
+                    {{request.user.username}}
+                </span>
+
+                {% if request.user.is_authenticated %}
+                    {% if request.user.designation %}
+                        <span style="display: block; font-size: 0.8rem;" class="text-capitalize text-white">{{ request.user.designation|truncatechars:13 }}</span>
+                    {% else %}
+                        <span style="display: block; font-size: 0.8rem;" class="nav-link__color">{{request.user.get_role_display}}</span>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+            
+        <!-- =============== offcanvas toggle starts =============== -->
+        <button class="navbar-toggler " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars-staggered nav-link__color"></i>
+        </button>
+        <!-- =============== offcanvas toggle ends =============== -->
+
+        <div class="offcanvas offcanvas-start brand-color__background" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+
+            <!-- offcanvas header starts -->
+            <div class="offcanvas-header mt-2">
+                <div style="height: 25px;" class="text-center d-flex align-items-center justify-content-center gap-1 offcanvas-title "  id="offcanvasLabel">
+                    <img src="{% static 'images/logo.webp' %}" alt="HireFlow logo" style="height: 100%;">
+                    <h1 class="text-white mb-0">Hireflow</h1>
+                </div>
+
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <!-- offcanvas header ends -->
+
+            <div class="offcanvas-body px-2">
+                <!-- =============== nav link starts =============== -->
+                {% if request.user.is_authenticated %}
+                    {% if request.user.role == 'employer' %}
+
+                    {% include 'base/partials/employer_sidebar.html' %}
+
+                    {% else %}
+
+                    {% include 'base/partials/candidate_sidebar.html' %}
+
+                    {% endif %}
+                {% endif %}
+                <!-- =============== nav link ends =============== -->
+            </div>
+
+        </div>
+    </div>
+    <!-- =============== user profile image and toggler starts =============== -->  
+
+  </div>
+</nav>
