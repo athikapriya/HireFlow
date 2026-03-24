@@ -24,6 +24,7 @@ urlpatterns = [
     path("", include("base.urls")),
     path("accounts/", include("accounts.urls")),
     path("jobs/", include("jobs.urls")),
+    path("applications/", include("applications.urls")),
 ]
 
 if settings.DEBUG :
