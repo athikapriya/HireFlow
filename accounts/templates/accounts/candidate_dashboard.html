@@ -4,6 +4,7 @@
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/accounts/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/jobs/jobs.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -15,6 +16,123 @@
     <!-- dashboard card -->
     {% include 'accounts/dashboard_cards.html' %}
 
+
+    <div class="container-fluid content-section">
+        <div class="row">
+
+            <!-- =============== applications =============== -->
+            <div class="col-lg-7 col-xl-8 g-4 applications">
+                
+             <div class="section-bg py-3 ">
+                <div class="mx-3">
+                        
+                    <div class="main-section__header">
+                        <h3 class="main-heading ms-2 mb-0">Recent Applications</h3>
+                    </div>
+
+                    <div class="main-section__body mt-3">
+                        <div class="table-responsive">
+
+                            <table class="table table-sm align-middle table-nowrap table-hover">
+                                <thead class="table-secondary">
+                                    <th>Job Title</th>
+                                    <th>Company</th>
+                                    <th>Applied On</th>
+                                    <th>Status</th>
+                                </thead>
+
+                                <tbody>
+                                    {% if recent_applications %}
+                                        {% for app in recent_applications %}
+                                        <tr>
+                                            <td>{{ app.job.title }}</td>
+                                            <td>{{ app.job.employer.username }}</td>
+                                            <td>{{ app.applied_at|date:"M d, Y" }}</td>
+                                            <td>
+                                                {% if app.status == "pending" %}
+                                                    <span class="badge bg-warning text-dark">Pending</span>
+                                                {% elif app.status == "accepted" %}
+                                                    <span class="badge bg-success">Accepted</span>
+                                                {% elif app.status == "rejected" %}
+                                                    <span class="badge bg-danger">Rejected</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="4" class="text-center">No recent applications</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            </div>
+
+            <!-- =============== chart =============== -->
+            <div class="col-lg-5 col-xl-4 g-4 chart">
+                <div class="section-bg py-3">
+                    <canvas id="applicationChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script>
+    const data = {
+        labels: ['Accepted', 'Pending', 'Rejected'],
+        datasets: [{
+            data: [
+                {{ total_accepted|default:0 }},
+                {{ total_pending|default:0 }},
+                {{ total_rejected|default:0 }}
+            ],
+            backgroundColor: [
+                '#22CFCF',  // Accepted
+                '#FFC107',  // Pending
+                '#FF4069'   // Rejected
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    const config = {
+        type: 'doughnut',
+        data: data,
+        options: {
+            responsive: true,
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1200,
+                easing: 'easeOutBounce'
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Your Applications Status Overview'
+                }
+            }
+        }
+    };
+
+    const ctx = document.getElementById('applicationChart');
+    new Chart(ctx, config);
+</script>
 {% endblock %}

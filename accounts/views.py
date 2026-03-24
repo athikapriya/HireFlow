@@ -116,12 +116,17 @@ def candidate_dashboard(request):
     total_pending = Application.objects.filter(candidate=request.user, status="pending").count()
     total_rejected = Application.objects.filter(candidate=request.user, status="rejected").count()
 
+    recent_applications = Application.objects.filter(candidate=request.user)\
+                            .select_related('job', 'job__employer')\
+                            .order_by('-applied_at')[:6]
+
     context = {
         "page_title": page_title,
         "total_applied": total_applied,
         "total_accepted": total_accepted,
         "total_pending": total_pending,
         "total_rejected": total_rejected,
+        "recent_applications": recent_applications,
     }
 
     return render(request, 'accounts/candidate_dashboard.html', context)
