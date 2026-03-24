@@ -80,6 +80,14 @@
                             <div class="col-sm-6">
                                 {{ form.deadline.label_tag }}
                                 {{ form.deadline }}
+
+                                {% if form.deadline.errors %}
+                                    <div class="text-danger small mt-1" style="font-size: 0.8rem;">
+                                        {% for error in form.deadline.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
 
                             <!-- description -->
