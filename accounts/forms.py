@@ -90,3 +90,53 @@ class CustomSetPasswordForm(SetPasswordForm):
             "placeholder": "Confirm new password"
         })
     )
+
+
+# =============== Candidate Profile form =============== 
+class CandidateProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["username", "email", "designation", "profile_image"]
+        widgets = {
+            "username": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter username"
+            }),
+            "email": forms.EmailInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter email"
+            }),
+            "designation": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter your designation / title"
+            }),
+            "profile_image": forms.ClearableFileInput(attrs={
+                "class": "form-control",
+                "accept": "image/*"
+            }),
+        }
+
+
+# =============== Employer Profile Form ===============
+class EmployerProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["username", "email", "designation", "profile_image"]
+        widgets = {
+            "username": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter username"
+            }),
+            "email": forms.EmailInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter email"
+            }),
+            "designation": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter company / designation"
+            }),
+            "profile_image": forms.ClearableFileInput(attrs={
+                "class": "form-control",
+                "accept": "image/*"
+            }),
+        }
