@@ -1,0 +1,93 @@
+{% extends 'base/main.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/jobs/jobs.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section id="apply_job">
+
+    <!-- page title -->
+    {% include 'base/page_title.html' %}
+
+    <div class="container-fluid mt-3 content-section">
+
+        <div class="job-form section-bg py-3">
+            <div class="mx-3">
+
+                <!-- header -->
+                <div class="main-section__header">
+                    <h3 class="main-heading ms-2 mb-0">Apply for {{job.title}}</h3>
+                </div>
+
+                <!-- job info -->
+                <div class="mt-3 p-3 border rounded bg-light">
+                    <h5 class="mb-1">{{ job.title }}</h5>
+                    <p class="mb-1 text-muted">{{ job.company_name }}</p>
+                    <small>
+                        <i class="fa-solid fa-location-dot"></i> {{ job.location }}
+                    </small>
+                </div>
+
+                <!-- form -->
+                <div class="main-section__body mt-4">
+                    
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row g-4">
+
+                            <!-- resume -->
+                            <div class="col-md-6">
+                                {{ form.resume.label_tag }}
+                                {{ form.resume }}
+
+                                {% if form.resume.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.resume.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- cover letter -->
+                            <div class="col-12">
+                                {{ form.cover_letter.label_tag }}
+                                {{ form.cover_letter }}
+
+                                {% if form.cover_letter.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.cover_letter.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- submit buttons -->
+                            <div class="d-flex justify-content-end gap-3 mt-3">
+                                <a href="{% url 'browse_jobs' %}" class="btn btn-warning">
+                                    Cancel
+                                </a>
+                                <button type="submit" class="btn btn-submit">
+                                    Apply Now
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

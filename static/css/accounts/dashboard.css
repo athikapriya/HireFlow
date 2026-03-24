@@ -34,7 +34,7 @@
 }
 
 /* =============== browse jobs starts =============== */
-#browse_jobs .card{
+#browse_jobs .card, #applied_jobs .card{
     box-shadow: 1px 1px 5px #bed0e1;
 }
 
