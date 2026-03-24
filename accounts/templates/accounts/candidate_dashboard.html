@@ -93,14 +93,16 @@
 {% block script %}
 <script>
     const data = {
-        labels: ['Accepted', 'Pending', 'Rejected'],
+        labels: ['Applied','Accepted', 'Pending', 'Rejected'],
         datasets: [{
             data: [
+                {{ total_applied|default:0 }},
                 {{ total_accepted|default:0 }},
                 {{ total_pending|default:0 }},
                 {{ total_rejected|default:0 }}
             ],
             backgroundColor: [
+                '#059BFF', // Total applied
                 '#22CFCF',  // Accepted
                 '#FFC107',  // Pending
                 '#FF4069'   // Rejected
