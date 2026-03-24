@@ -138,7 +138,17 @@
                             </div>
 
                             <div class="job-btn d-flex justify-content-center align-items-center gap-3">
-                                <a href="#" class="text-decoration-none apply-btn btn">Apply Job</a>
+
+                                {% if user.is_authenticated %}
+                                    {% if job.id in applied_job_ids %}
+                                        <span style="background-color: #da4e5c; color: #fff;" class="btn">Already Applied</span>
+                                    {% else %}
+                                        <a href="{% url 'apply_job' job.id %}" class="text-decoration-none apply-btn btn">
+                                            Apply Job
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+
                                 <a href="{% url 'job_details' job.id %}" class="text-decoration-none overview-btn btn">Overview</a>
                             </div>
 

@@ -114,7 +114,19 @@
 
                 <!-- apply btn -->
                 <div class="job-btn m-3">
-                    <a href="#" class="text-decoration-none apply-btn btn" style="background-color: var(--brand-color); color: var(--quaternary-color);">Apply Job</a>
+                    {% if user.is_authenticated %}
+                        {% if has_applied %}
+                            <span style="background-color: #da4e5c; color: #fff;" class="btn">
+                                Already Applied
+                            </span>
+                        {% else %}
+                            <a href="{% url 'apply_job' job.id %}" 
+                            class="text-decoration-none apply-btn btn"
+                            style="background-color: var(--brand-color); color: var(--quaternary-color);">
+                                Apply Job
+                            </a>
+                        {% endif %}
+                    {% endif %}
                 </div>
 
             </div>
