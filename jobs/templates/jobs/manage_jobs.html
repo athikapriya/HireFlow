@@ -28,6 +28,44 @@
                     </a>
                 </div>
 
+
+                <form method="get" class="row g-2 align-items-center mt-2">
+
+                    <!-- Job title search -->
+                    <div class="col-sm-4">
+                        <input type="text" name="q" class="form-control" placeholder="Search by job title" value="{{ query }}">
+                    </div>
+
+                    <!-- Employment type filter -->
+                    <div class="col-6 col-sm-4 col-md-3">
+                        <select name="employment_type" class="form-select">
+                            <option value="">All Employment Types</option>
+                            <option value="FT" {% if employment_type == "FT" %}selected{% endif %}>Full-time</option>
+                            <option value="PT" {% if employment_type == "PT" %}selected{% endif %}>Part-time</option>
+                            <option value="CT" {% if employment_type == "CT" %}selected{% endif %}>Contract</option>
+                            <option value="IN" {% if employment_type == "IN" %}selected{% endif %}>Internship</option>
+                            <option value="FL" {% if employment_type == "FL" %}selected{% endif %}>Freelance</option>
+                        </select>
+                    </div>
+
+                    <!-- Status filter -->
+                    <div class="col-6 col-sm-2 col-md-3">
+                        <select name="status" class="form-select">
+                            <option value="">All Status</option>
+                            <option value="active" {% if status == "active" %}selected{% endif %}>Active</option>
+                            <option value="closed" {% if status == "closed" %}selected{% endif %}>Closed</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit button -->
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-primary w-100 mybtn d-flex gap-2 justify-content-center align-items-center">
+                            <i class="fa-solid fa-sliders"></i>
+                            <span>Filter</span>
+                        </button>
+                    </div>
+                </form>
+
             </div>
         </div>
         <!-- =============== filter ends =============== -->
