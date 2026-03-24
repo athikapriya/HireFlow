@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator
 
 from .models import Application
 from jobs.models import Job
@@ -45,3 +46,38 @@ def applied_jobs(request):
         "applications": applications,
     }
     return render(request, "applications/applied_jobs.html", context)
+
+
+
+# =============== employer applications view =============== 
+def employer_applications(request):
+    page_title = "Applications"
+
+    jobs = Job.objects.filter(employer=request.user) 
+    applications_list = Application.objects.filter(job__in=jobs).select_related('job', 'candidate')
+
+    paginator = Paginator(applications_list, 10)
+    page_number = request.GET.get('page')
+    applications = paginator.get_page(page_number)
+
+    context = {
+        'applications': applications,
+        'page_title': page_title
+    }
+    return render(request, 'applications/employer_applications.html', context)
+
+
+# =============== accept application view =============== 
+def accept_application(request, app_id):
+    application = get_object_or_404(Application, id=app_id, job__employer=request.user)
+    application.status = "accepted"
+    application.save()
+    return redirect('employer_applications')
+
+
+# =============== reject application view =============== 
+def reject_application(request, app_id):
+    application = get_object_or_404(Application, id=app_id, job__employer=request.user)
+    application.status = "rejected"
+    application.save()
+    return redirect('employer_applications')
