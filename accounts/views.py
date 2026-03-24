@@ -4,6 +4,7 @@ from django.contrib import messages
 
 
 from .forms import CandidateRegisterForm, EmployerRegisterForm
+from jobs.models import Job
 
 
 
@@ -79,12 +80,18 @@ def logout_user(request):
 # =============== employer dashboard view ===============
 def employer_dashboard(request):
     page_title = "Dashboard"
+
+    jobs = Job.objects.filter(employer=request.user)
+
+    total_jobs = jobs.count()
+    active_jobs = jobs.filter(is_active=True).count()
+
     context = {
         # Example placeholders:
-        # 'total_jobs': 0,
         # 'total_applications': 0,
-        # 'active_jobs': 0,
         # 'shortlisted_candidates': 0,
+        "total_jobs": total_jobs,
+        "active_jobs": active_jobs,
         "page_title" : page_title
     }
     return render(request, 'accounts/employer_dashboard.html', context)
