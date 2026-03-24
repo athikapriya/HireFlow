@@ -1,0 +1,128 @@
+
+{% extends 'base/main.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/jobs/jobs.css' %}">
+<link rel="stylesheet" href="{% static 'css/accounts/dashboard.css' %}">
+{% endblock %}
+
+<!-- =============== job details starts here =============== -->
+{% block content %}
+
+<section id="job-details">
+    
+    <!-- =============== main section starts here =============== -->
+    <div class="container-fluid my-3 content-section">
+
+        <div class="section-bg py-3">
+            <div class="mx-3">
+                
+                <!-- logo and title -->
+                <div class="d-flex gap-3 align-items-center">
+                    <div class="logo-box d-flex align-items-center justify-content-center">
+                        {% if job.company_logo %}
+                            <img src="{{ job.company_logo.url }}" alt="Logo" class="company-logo h-100 w-100">
+                        {% else %}
+                            <img src="{% static 'images/default_logo.png' %}" alt="Logo" class="company-logo w-100 h-100">
+                        {% endif %}
+                    </div>
+                    <h2 class="mb-0 job-name">{{job.title}}</h2>
+                </div>
+
+                <!-- other details -->
+                <div class="d-flex gap-4 flex-wrap align-items-center m-3 other-details">
+
+                    <div class="d-flex gap-2 align-items-center">
+                        <i class="fa-solid fa-city"></i>
+                        <span>{{job.company_name}}</span>
+                    </div>
+
+                    <div class="d-flex gap-2 align-items-center">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>
+                            {% if job.location %}
+                                {{ job.location }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <div>
+                        <span class="badge-custom py-1 px-2 rounded-4 
+                                            {% if job.employment_type == 'FT' %}badge-ft
+                                            {% elif job.employment_type == 'PT' %}badge-pt
+                                            {% elif job.employment_type == 'CT' %}badge-ct
+                                            {% elif job.employment_type == 'IN' %}badge-in
+                                            {% elif job.employment_type == 'FL' %}badge-fl
+                                            {% endif %}">
+                            {{ job.get_employment_type_display }}
+                            </span>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-4 flex-wrap align-items-center m-3 other-details">
+                    <div class="d-flex gap-2 align-items-center">
+                        Salary : 
+                        <span class="salary fw-semibold">$ {{job.salary}}</span>
+                    </div>
+
+                    <div class="d-flex gap-2 align-items-center">
+                        Experience : 
+                        <span class="fw-semibold">{{job.experience}}</span>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-4 flex-wrap align-items-center m-3 other-details">
+
+                    <div class="d-flex align-items-center">
+                        Post Date : <strong>{{job.posted_at|date:"F j, Y"}}</strong>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        Deadline : 
+                        <span class="fw-semibold">{{job.deadline}}</span>
+                    </div>
+                </div>
+
+                <div class="job-description m-3">
+                    <h2 class=" main-heading" style="font-size: 0.95rem;">Skills :</h2>
+                    {% if job.skills.exists %}
+    
+                    {% for skill in job.skills.all|slice:":3" %}
+                        <span class="skill-badge">{{ skill.name }}</span>
+                    {% endfor %}
+
+                    {% if job.skills.count > 3 %}
+                        <span class="skill-badge more-badge">
+                            +{{ job.skills.count|add:"-3" }}
+                        </span>
+                    {% endif %}
+
+                    {% else %}
+                        <span>N/A</span>
+                    {% endif %}
+                </div>
+
+                <!-- description -->
+                <div class="job-description m-3">
+                    <h2 class=" main-heading" style="font-size: 0.95rem;">Job Description</h2>
+                    <span>{{job.description}}</span>
+                </div>
+
+                <!-- apply btn -->
+                <div class="job-btn m-3">
+                    <a href="#" class="text-decoration-none apply-btn btn" style="background-color: var(--brand-color); color: var(--quaternary-color);">Apply Job</a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    
+</section>
+
+{% endblock %}
+<!-- =============== job details ends here =============== -->

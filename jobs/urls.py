@@ -10,4 +10,5 @@ urlpatterns = [
     path("manage_jobs/restore_job/<int:pk>/", views.restore_job, name="restore_job"),
 
     path("browse_jobs/", views.browse_jobs, name="browse_jobs"),
+    path("browse_jobs/job_details/<int:pk>/", views.job_details, name="job_details"),
 ]

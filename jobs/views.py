@@ -153,3 +153,15 @@ def browse_jobs(request):
         "total_jobs_all": total_jobs_all,
     }
     return render(request, 'jobs/browse_jobs.html', context)
+
+
+
+# =============== job overview view =============== 
+def job_details(request, pk):
+
+    job = get_object_or_404(Job, id=pk)
+
+    context = {
+        "job": job
+    }
+    return render(request, 'jobs/job_details.html', context)
