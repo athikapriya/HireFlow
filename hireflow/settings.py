@@ -9,15 +9,50 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import cloudinary
 from pathlib import Path
 import os
 from decouple import config
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
-load_dotenv(os.path.join(BASE_DIR, '.env')) 
+DEBUG = config('DEBUG', default=False, cast=bool)
+
+# Media settings
+if DEBUG:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+else:
+    MEDIA_URL = None
+    MEDIA_ROOT = None
+
+    # Cloudinary credentials
+    cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME')
+    api_key = os.getenv('CLOUDINARY_API_KEY')
+    api_secret = os.getenv('CLOUDINARY_API_SECRET')
+
+    if not cloud_name or not api_key or not api_secret:
+        raise Exception("Cloudinary credentials missing")
+
+    import cloudinary_storage
+    import cloudinary
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': cloud_name,
+        'API_KEY': api_key,
+        'API_SECRET': api_secret,
+        'RESOURCE_TYPE': 'auto',
+    }
+
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+    cloudinary.config(
+        cloud_name=cloud_name,
+        api_key=api_key,
+        api_secret=api_secret,
+    )
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,7 +62,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+
 
 
 # Allowed hosts
@@ -147,39 +182,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR/'static'),
 ]
-
-if DEBUG:
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-else:
-    MEDIA_URL = '/media/'  
-    MEDIA_ROOT = '' 
-
-
-# =============== cloudinary configuration =============== 
-cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME')
-api_key = os.getenv('CLOUDINARY_API_KEY')
-api_secret = os.getenv('CLOUDINARY_API_SECRET')
-
-if not cloud_name or not api_key or not api_secret:
-    raise Exception("Cloudinary credentials missing")
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': cloud_name,
-    'API_KEY': api_key,
-    'API_SECRET': api_secret,
-}
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-import cloudinary
-cloudinary.config(
-    cloud_name=cloud_name,
-    api_key=api_key,
-    api_secret=api_secret,
-)
-CLOUDINARY_STORAGE['RESOURCE_TYPE'] = 'auto'
-
 
 # =============== SMTP Configuration =============== 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
