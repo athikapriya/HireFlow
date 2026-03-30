@@ -46,7 +46,9 @@ SECRET_KEY = config('SECRET_KEY')
 
 
 # Allowed hosts
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+
+DEBUG = config("DEBUG", default=False, cast=bool)
 
 
 # Application definition
