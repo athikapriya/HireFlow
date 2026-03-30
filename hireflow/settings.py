@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 # Media and Cloudinary configuration
-from logging import config
+from decouple import config
 from re import DEBUG
 
 import cloudinary
