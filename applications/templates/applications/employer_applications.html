@@ -54,7 +54,7 @@
                                     <td>{{ app.applied_at|date:"M d, Y" }}</td>
                                     <td>
                                         {% if app.resume %}
-                                            <a href="{{ app.resume.url }}" download="" class="text-decoration-none d-flex gap-1  align-items-center brand-color__font">
+                                            <a href="{{ app.resume.url }}" target="_blank" class="text-decoration-none d-flex gap-1  align-items-center brand-color__font">
                                                 <span>Download</span>
                                                 <i class="fa-solid fa-download"></i>
                                             </a>
