@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from decouple import config
 from dotenv import load_dotenv
+load_dotenv(os.path.join(BASE_DIR, '.env')) 
 
 
 
@@ -153,14 +154,12 @@ if DEBUG:
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 else:
-    MEDIA_URL = None
-    MEDIA_ROOT = None
+    MEDIA_URL = '/media/' 
+    MEDIA_ROOT = None       
 
 
 # =============== cloudinary configuration =============== 
 import cloudinary
-
-load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
