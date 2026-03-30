@@ -27,6 +27,7 @@ package-lock.json
 
 # Django
 staticfiles/
+media/
 logs/
 *.log
 
