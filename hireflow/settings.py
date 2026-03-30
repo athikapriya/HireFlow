@@ -22,28 +22,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Cloudinary credentials
-cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME')
-api_key = os.getenv('CLOUDINARY_API_KEY')
-api_secret = os.getenv('CLOUDINARY_API_SECRET')
+CLOUDINARY_CLOUD_NAME = os.getenv('CLOUDINARY_CLOUD_NAME')
+CLOUDINARY_API_KEY = os.getenv('CLOUDINARY_API_KEY')
+CLOUDINARY_API_SECRET = os.getenv('CLOUDINARY_API_SECRET')
 
-if not cloud_name or not api_key or not api_secret:
-    raise Exception("Cloudinary credentials missing")
-
-cloudinary.config(
-    cloud_name=cloud_name,
-    api_key=api_key,
-    api_secret=api_secret,
-)
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': cloud_name,
-    'API_KEY': api_key,
-    'API_SECRET': api_secret,
-    'RESOURCE_TYPE': 'auto',
-}
-
-# Always save uploaded files to Cloudinary
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
+    cloudinary.config(
+        cloud_name=CLOUDINARY_CLOUD_NAME,
+        api_key=CLOUDINARY_API_KEY,
+        api_secret=CLOUDINARY_API_SECRET,
+    )
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+else:
+    # fallback for local development
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 
 # Quick-start development settings - unsuitable for production
