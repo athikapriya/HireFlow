@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from decouple import config
 
 import cloudinary
-import cloudinary_storage
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -132,11 +131,10 @@ else:
 
 
 # http securing
-if ENV == "production":
+if not DEBUG:
     SECURE_SSL_REDIRECT = True
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Password validation
