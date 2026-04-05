@@ -43,6 +43,7 @@ This project demonstrates backend engineering concepts such as **authentication,
 | Database | SQLite (development), PostgreSQL (production) | 
 | Media Storage | Cloudinary |
 | Deployment | Render |
+| Task Queue | Celery + Redis (async tasks work locally; Render free tier uses direct email) |
 | Tools | Git, GitHub, python-decouple |
 
 
@@ -130,6 +131,13 @@ python manage.py migrate
 ```bash
 python manage.py runserver
 ```
+
+### Email Handling
+
+- **Local development:** Emails are sent asynchronously using Celery + Redis.  
+- **Render free tier deployment:** Celery worker is not supported on free tier; emails are sent directly via SMTP.  
+
+> Note: To use asynchronous tasks on Render, a paid Celery worker service is required.
 
 ### Usage
 - Use Postman or your front-end client to interact with the API endpoints.
