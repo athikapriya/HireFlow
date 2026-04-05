@@ -3,21 +3,27 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from .models import User
 from .tasks import send_welcome_email
+import logging
 
+logger = logging.getLogger(__name__)
 
 @receiver(post_save, sender=User)
 def user_created_handler(sender, instance, created, **kwargs):
     if not created:
         return
+
     try:
-        if instance.role == 'candidate' and not instance.designation:
-            User.objects.filter(pk=instance.pk).update(designation='Candidate')
-        elif instance.role == 'employer' and not instance.designation:
-            User.objects.filter(pk=instance.pk).update(designation='Employer')
+        if not instance.designation:
+            instance.designation = "Candidate" if instance.role == "candidate" else "Employer"
+            instance.save(update_fields=["designation"])
 
         Token.objects.create(user=instance)
 
-        send_welcome_email.delay(instance.email, instance.username)
+        try:
+            send_welcome_email.delay(instance.email, instance.username)
+        except Exception as e:
+            logger.error(f"Failed to enqueue welcome email, sending synchronously: {e}")
+            from .tasks import send_welcome_email
+            send_welcome_email(instance.email, instance.username)
     except Exception as e:
-        import logging
-        logging.error(f"Error in user_created_handler signal: {e}")
+        logger.error(f"Error in user_created_handler signal: {e}")

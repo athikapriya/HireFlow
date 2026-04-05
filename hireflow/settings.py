@@ -159,14 +159,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-# =============== celery settings =============== 
-CELERY_BROKER_URL = config("REDIS_URL", default="redis://localhost:6379/0")
-CELERY_RESULT_BACKEND = config("REDIS_URL", default="redis://localhost:6379/0")
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Asia/Dhaka'
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
@@ -186,6 +178,17 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+
+
+# =============== celery settings =============== 
+if config("ENV", default="local")=="production":
+    CELERY_BROKER_URL = CELERY_RESULT_BACKEND = config("REDIS_URL")
+else:
+    CELERY_BROKER_URL = "memory://"
+    CELERY_RESULT_BACKEND = "rpc://"
+
+CELERY_ACCEPT_CONTENT = CELERY_TASK_SERIALIZER = CELERY_RESULT_SERIALIZER = ['json']
+CELERY_TIMEZONE = "Asia/Dhaka"
 
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
