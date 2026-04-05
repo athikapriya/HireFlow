@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from .models import User
 from .tasks import send_welcome_email
+from decouple import config
 import logging
 
 logger = logging.getLogger(__name__)
@@ -19,11 +20,10 @@ def user_created_handler(sender, instance, created, **kwargs):
 
         Token.objects.create(user=instance)
 
-        try:
-            send_welcome_email.delay(instance.email, instance.username)
-        except Exception as e:
-            logger.error(f"Failed to enqueue welcome email, sending synchronously: {e}")
-            from .tasks import send_welcome_email
+        if config("ENV", default="local") == "production":
             send_welcome_email(instance.email, instance.username)
+        else:
+            send_welcome_email.delay(instance.email, instance.username)
+
     except Exception as e:
         logger.error(f"Error in user_created_handler signal: {e}")
