@@ -7,13 +7,17 @@ from .tasks import send_welcome_email
 
 @receiver(post_save, sender=User)
 def user_created_handler(sender, instance, created, **kwargs):
-    if created:
+    if not created:
+        return
+    try:
         if instance.role == 'candidate' and not instance.designation:
-            instance.designation = "Candidate"
+            User.objects.filter(pk=instance.pk).update(designation='Candidate')
         elif instance.role == 'employer' and not instance.designation:
-            instance.designation = "Employer"
-        instance.save(update_fields=['designation'])
+            User.objects.filter(pk=instance.pk).update(designation='Employer')
 
         Token.objects.create(user=instance)
 
         send_welcome_email.delay(instance.email, instance.username)
+    except Exception as e:
+        import logging
+        logging.error(f"Error in user_created_handler signal: {e}")
