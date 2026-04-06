@@ -24,16 +24,7 @@ def user_created_handler(sender, instance, created, **kwargs):
 
         try:
             if settings.ENV == "production":
-                from django.core.mail import send_mail
-
-                send_mail(
-                    "Welcome to HireFlow!",
-                    f"Hi {instance.username}, welcome!",
-                    settings.EMAIL_HOST_USER,
-                    [instance.email],
-                    fail_silently=True   
-                )
-
+                logger.info("Skipping email in production (no SMTP)")
             else:
                 send_welcome_email.delay(instance.email, instance.username)
 
