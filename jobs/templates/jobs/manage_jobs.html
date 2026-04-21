@@ -90,55 +90,67 @@
                                 <th>Experience</th>
                                 <th>Salary</th>
                                 <th>Skills</th>
-                                <th>Status</th>
                                 <th>Deadline</th>
+                                <th>Status</th>
                                 <th class="text-center">Actions</th>
                             </thead>
 
                             <tbody>
                                 {% for job in jobs %}
                                 
-                                <tr>
+                                <tr class="jobs-row">
+                                    <!-- company name -->
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="logo-box d-flex align-items-center justify-content-center">
                                                 {% if job.company_logo %}
-                                                    <img src="{{ job.company_logo.url }}" alt="Logo" class="company-logo h-100 w-100">
+                                                    <img src="{{ job.company_logo.url }}" class="company-logo w-100 h-100">
                                                 {% else %}
-                                                    <img src="{% static 'images/default_logo.png' %}" alt="Logo" class="company-logo w-100 h-100">
+                                                    <img src="{% static 'images/default_logo.png' %}" class="company-logo w-100 h-100">
                                                 {% endif %}
                                             </div>
-                                            <span class="company-name tertiary-color fw-medium">{{ job.company_name }}</span>
+
+                                            <div class="d-flex flex-column">
+                                                <span class="fw-medium">{{ job.company_name }}</span>
+                                                <small class="table-meta">Company</small>
+                                            </div>
                                         </div>
                                     </td>
 
-                                    <td>{{ job.title }}</td>
+                                    <!-- designation -->
+                                   <td>
+                                        <div class="d-flex flex-column">
+                                            <span class="fw-medium">{{ job.title }}</span>
+                                            <small class="table-meta">Job Role</small>
+                                        </div>
+                                    </td>
 
+                                    <!-- employment type -->
                                     <td>
-                                        <span class="badge-custom py-1 px-2 rounded-4 
-                                            {% if job.employment_type == 'FT' %}badge-ft
-                                            {% elif job.employment_type == 'PT' %}badge-pt
-                                            {% elif job.employment_type == 'CT' %}badge-ct
-                                            {% elif job.employment_type == 'IN' %}badge-in
-                                            {% elif job.employment_type == 'FL' %}badge-fl
-                                            {% endif %}">
+                                        <span class="badge py-1 px-2 rounded-4 {{ job.badge_class }}">
                                             {{ job.get_employment_type_display }}
                                         </span>
                                     </td>
 
-                                    <td>{{ job.experience }}</td>
+                                    <!-- experience -->
+                                    <td class="py-3">
+                                        <span class="badge px-2 py-1 rounded-4 {{ job.experience_badge }}">
+                                            {{ job.experience }}
+                                        </span>
+                                    </td>
 
+                                    <!-- salary -->
                                     <td>
                                         {% if job.salary %}
-                                            <span class="salary fw-medium">$ {{ job.salary }}</span>
+                                            <span class="table-meta salary-text">$ {{ job.salary }}</span>
                                         {% else %}
-                                            N/A
+                                            <span class="table-meta muted">N/A</span>
                                         {% endif %}
                                     </td>
 
+                                    <!-- skills -->
                                     <td>
                                         {% if job.skills.exists %}
-    
                                             {% for skill in job.skills.all|slice:":3" %}
                                                 <span class="skill-badge">{{ skill.name }}</span>
                                             {% endfor %}
@@ -148,28 +160,32 @@
                                                     +{{ job.skills.count|add:"-3" }}
                                                 </span>
                                             {% endif %}
-
                                         {% else %}
-                                            <span>N/A</span>
+                                            <span class="table-meta muted">N/A</span>
                                         {% endif %}
                                     </td>
 
-                                    <td>
-                                        {% if job.is_active %}
-                                            <span class="status-badge status-active">Active</span>
-                                        {% else %}
-                                            <span class="status-badge status-closed">Closed</span>
-                                        {% endif %}
-                                    </td>
-
+                                    <!-- deadline -->
                                     <td>
                                         {% if job.deadline %}
-                                            {{ job.deadline }}
+                                            <span class="table-meta date-text">
+                                                {{ job.deadline|date:"d M" }}
+                                            </span>
                                         {% else %}
-                                            -
+                                            <span class="table-meta muted">---</span>
                                         {% endif %}
                                     </td>
 
+                                    <!-- status -->
+                                    <td>
+                                        {% if job.is_active %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">Closed</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <!-- actions -->
                                     <td class="actions">
                                         {% if job.is_active %}
                                         <div class="d-flex justify-content-center gap-4">

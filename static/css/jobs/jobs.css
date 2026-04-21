@@ -85,19 +85,41 @@ table tr{
 
 /* =============== skill badge starts here =============== */
 .skill-badge {
-    background-color: #f0f0f1; 
-    color: var(--tertiary-color);
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 50px;
-    margin-right: 4px;
-    display: inline-block;
-    margin-bottom: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    font-size: 11.5px;
+    font-weight: 500;
+
+    padding: 4px 10px;
+    border-radius: 20px;
+
+    background: rgba(64, 81, 137, 0.08);
+    color: var(--brand-color);
+
+    border: 1px solid rgba(64, 81, 137, 0.15);
+    transition: all 0.2s ease;
+}
+
+.skill-badge:hover {
+    background: rgba(64, 81, 137, 0.15);
+    transform: translateY(-1px);
 }
 
 .more-badge {
-    background-color: rgba(64, 81, 137, 0.1);
-    color: var(--brand-color);
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--tertiary-color);
+    border: 1px dashed rgba(0,0,0,0.1);
+}
+
+.skill-badge::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--brand-color);
+    display: inline-block;
 }
 /* =============== skill badge ends here =============== */
 
@@ -326,7 +348,7 @@ input[type="file"].form-control:focus {
 
 .date-text {
     font-size: 11.5px;
-    color: #9aa0a6;
+    color: var(--tertiary-color);
 }
 
 .muted {
