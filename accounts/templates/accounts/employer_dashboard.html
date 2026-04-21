@@ -160,19 +160,19 @@
                                                     class="rounded-circle"
                                                     width="32"
                                                     height="32"
-                                                    style="object-fit: cover;">
+                                                    style="object-fit: cover;" aria-label="Profile img">
                                             {% else %}
                                                 <img src="{% static 'images/profile.svg' %}"
                                                     class="rounded-circle"
                                                     width="32"
                                                     height="32"
-                                                    style="object-fit: cover;">
+                                                    style="object-fit: cover;" aria-label="Profile img">
                                             {% endif %}
                                         </div>
 
                                         <div class="d-flex flex-column">
                                             <span class="fw-semibold">{{ app.candidate.username }}</span>
-                                            <small class="text-muted">Candidate</small>
+                                            <small class="text-muted">{{app.candidate.designation}}</small>
                                         </div>
 
                                     </div>
