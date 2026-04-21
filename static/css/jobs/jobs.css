@@ -356,3 +356,16 @@ input[type="file"].form-control:focus {
     color: #b0b0b0;
 }
 /* =============== table meta ends =============== */
+
+
+/* =============== employer applications table upgrade starts =============== */
+.resume-link {
+    color: var(--brand-color);
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.resume-link:hover {
+    color: var(--brand-support);
+}
+/* =============== employer applications table upgrade ends =============== */

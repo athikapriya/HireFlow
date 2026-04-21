@@ -39,29 +39,76 @@
 
                             <tbody>
                                 {% for app in applications %}
-                                <tr>
-                                    <td class="text-capitalize">{{ app.candidate.username }}</td>
-                                    <td>{{ app.job.title }}</td>
+                                <tr class="application-row">
+
+                                    <!-- Candidate -->
                                     <td>
-                                        {% if app.status == 'pending' %}
-                                            <span class="badge bg-warning">Pending</span>
-                                        {% elif app.status == 'accepted' %}
-                                            <span class="badge bg-success">Accepted</span>
-                                        {% else %}
-                                            <span class="badge bg-danger">Rejected</span>
-                                        {% endif %}
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="avatar-box">
+                                                {% if app.candidate.profile_image %}
+                                                    <img src="{{ app.candidate.profile_image.url }}"
+                                                        class="rounded-circle"
+                                                        width="30"
+                                                        height="30"
+                                                        style="object-fit: cover;" aria-label="Profile Img">
+                                                {% else %}
+                                                    <img src="{% static 'images/profile.svg' %}"
+                                                        class="rounded-circle"
+                                                        width="30"
+                                                        height="30"
+                                                        style="object-fit: cover;" aria-label="profile img">
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="d-flex flex-column">
+                                                <span class="fw-medium text-capitalize">
+                                                    {{ app.candidate.username }}
+                                                </span>
+                                                <small class="table-meta">Candidate</small>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td>{{ app.applied_at|date:"M d, Y" }}</td>
+
+                                    <!-- Job -->
+                                    <td>
+                                        <div class="d-flex flex-column">
+                                            <span class="fw-medium">{{ app.job.title }}</span>
+                                            <small class="table-meta">{{ app.job.company_name }}</small>
+                                        </div>
+                                    </td>
+
+                                    <!-- Status -->
+                                    <td>
+                                        <span class="badge px-2 py-1 rounded-4
+                                            {% if app.status == 'accepted' %}badge bg-success
+                                            {% elif app.status == 'rejected' %}badge bg-danger
+                                            {% else %}badge bg-warning
+                                            {% endif %}">
+                                            {{ app.status|title }}
+                                        </span>
+                                    </td>
+
+                                    <!-- Applied Date -->
+                                    <td>
+                                        <span class="table-meta date-text">
+                                            {{ app.applied_at|date:"d M, Y" }}
+                                        </span>
+                                    </td>
+
+                                    <!-- Resume -->
                                     <td>
                                         {% if app.resume %}
-                                            <a href="{{ app.resume.url }}" target="_blank" class="text-decoration-none d-flex gap-1  align-items-center brand-color__font">
-                                                <span>Download</span>
+                                            <a href="{{ app.resume.url }}" target="_blank"
+                                            class="table-meta resume-link d-inline-flex align-items-center gap-1">
+                                                <span>Resume</span>
                                                 <i class="fa-solid fa-download"></i>
                                             </a>
                                         {% else %}
-                                            N/A
+                                            <span class="table-meta muted">No file</span>
                                         {% endif %}
                                     </td>
+
+                                    <!-- Actions -->
                                     <td class="actions">
                                         <div class="d-flex justify-content-center gap-3">
                                             {% if app.status != "accepted" %}
@@ -76,6 +123,7 @@
                                             {% endif %}
                                         </div>
                                     </td>
+
                                 </tr>
                                 {% endfor %}
                             </tbody>
