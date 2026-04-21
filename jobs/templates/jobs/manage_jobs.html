@@ -104,9 +104,9 @@
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="logo-box d-flex align-items-center justify-content-center">
                                                 {% if job.company_logo %}
-                                                    <img src="{{ job.company_logo.url }}" class="company-logo w-100 h-100">
+                                                    <img src="{{ job.company_logo.url }}" class="company-logo w-100 h-100" aria-label="company logo">
                                                 {% else %}
-                                                    <img src="{% static 'images/default_logo.png' %}" class="company-logo w-100 h-100">
+                                                    <img src="{% static 'images/default_logo.png' %}" class="company-logo w-100 h-100" aria-label="default logo">
                                                 {% endif %}
                                             </div>
 
