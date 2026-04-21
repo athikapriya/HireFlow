@@ -30,9 +30,11 @@
                                 <tr>
                                     <th>Candidate</th>
                                     <th>Job</th>
-                                    <th>Status</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
                                     <th>Applied At</th>
                                     <th>Resume</th>
+                                    <th>Status</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -64,7 +66,7 @@
                                                 <span class="fw-medium text-capitalize">
                                                     {{ app.candidate.username }}
                                                 </span>
-                                                <small class="table-meta">Candidate</small>
+                                                <small class="table-meta">{{app.candidate.designation}}</small>
                                             </div>
                                         </div>
                                     </td>
@@ -77,15 +79,22 @@
                                         </div>
                                     </td>
 
-                                    <!-- Status -->
-                                    <td>
-                                        <span class="badge px-2 py-1 rounded-4
-                                            {% if app.status == 'accepted' %}badge bg-success
-                                            {% elif app.status == 'rejected' %}badge bg-danger
-                                            {% else %}badge bg-warning
-                                            {% endif %}">
-                                            {{ app.status|title }}
-                                        </span>
+                                    <!-- email -->
+                                    <td class="py-3">
+                                        <a href="mailto:{{ app.candidate.email }}" class="table-meta email-text">
+                                            {{ app.candidate.email }}
+                                        </a>
+                                    </td>
+
+                                    <!-- phone -->
+                                    <td class="py-3">
+                                        {% if app.candidate.phone %}
+                                            <a href="tel:{{ app.candidate.phone }}" class="table-meta email-text">
+                                                {{ app.candidate.phone }}
+                                            </a>
+                                        {% else %}
+                                            <span class="table-meta muted">N/A</span>
+                                        {% endif %}
                                     </td>
 
                                     <!-- Applied Date -->
@@ -106,6 +115,17 @@
                                         {% else %}
                                             <span class="table-meta muted">No file</span>
                                         {% endif %}
+                                    </td>
+
+                                    <!-- Status -->
+                                    <td>
+                                        <span class="badge px-2 py-1 rounded-4
+                                            {% if app.status == 'accepted' %}badge bg-success
+                                            {% elif app.status == 'rejected' %}badge bg-danger
+                                            {% else %}badge bg-warning
+                                            {% endif %}">
+                                            {{ app.status|title }}
+                                        </span>
                                     </td>
 
                                     <!-- Actions -->
