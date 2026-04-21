@@ -4,68 +4,220 @@
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/accounts/dashboard.css' %}">
 <link rel="stylesheet" href="{% static 'css/jobs/jobs.css' %}">
+<link rel="stylesheet" href="{% static 'css/accounts/profile.css' %}">
 {% endblock %}
 
 {% block content %}
 <section id="profile_form">
-    
-    <!-- page title -->
+
     {% include 'base/page_title.html' %}
 
-    <!-- main section -->
     <div class="container-fluid mt-3 content-section">
-        <div class="profile-form section-bg py-2">
-            <div class="mx-3">
 
-                <div class="main-section__header">
-                    <h3 class="main-heading ms-2 mb-0">{{ page_title }}</h3>
-                </div>
+        <div class="section-bg p-4">
 
-                <div class="main-section__body mt-3">
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
+            <div class="main-section__header mb-4">
+                <h3 class="main-heading">{{ page_title }}</h3>
+            </div>
 
-                        <div class="row g-4">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
 
-                            <!-- username -->
-                            <div class="col-sm-6">
-                                {{ form.username.label_tag }}
-                                {{ form.username }}
+                <div class="row g-4">
+
+                    <!-- left side -->
+                    <div class="col-lg-4">
+
+                        <div class="image-card text-center p-4">
+
+                            <!-- image preview -->
+                            <div class="profile-image-wrapper mx-auto mb-3" id="imageWrapper">
+                                {% if user.profile_image %}
+                                    <img src="{{ user.profile_image.url }}" id="previewImg" aria-label="preview img">
+                                {% else %}
+                                    <img src="{% static 'images/profile.svg' %}" id="previewImg" aria-label="preview img">
+                                {% endif %}
                             </div>
 
-                            <!-- email -->
-                            <div class="col-sm-6">
-                                {{ form.email.label_tag }}
-                                {{ form.email }}
+                            <!-- hidden file input -->
+                            <input 
+                                type="file" 
+                                name="profile_image" 
+                                id="id_profile_image" 
+                                accept="image/*"
+                                style="display: none;"
+                            >
+
+                            <!-- upload btn -->
+                            <div class="d-flex flex-column gap-2 mt-3">
+
+                                <button type="button" class="btn btn-light btn-sm" id="uploadBtn">
+                                    <i class="fa-solid fa-upload"></i> Upload Image
+                                </button>
+
                             </div>
 
-                            <!-- designation -->
-                            <div class="col-sm-6">
-                                {{ form.designation.label_tag }}
-                                {{ form.designation }}
-                            </div>
+                            <p class="small text-muted mt-3">
+                                JPG or PNG • Max 2MB
+                            </p>
 
-                            <!-- profile image -->
-                            <div class="col-sm-6">
-                                {{ form.profile_image.label_tag }}
-                                {{ form.profile_image }}
-                            </div>
+                        </div>
 
-                            <!-- submit button -->
-                            <div class="d-flex justify-content-end gap-3 my-3">
-                                
-                                <a href="{% url 'profile_view' %}" class="btn btn-warning">Cancel</a>
-                                
-                                <button type="submit" class="btn btn-submit">Save Changes</button>
+                    </div>
+
+
+                    <!-- right side -->
+                    <div class="col-lg-8">
+
+                        <!-- Basic info -->
+                        <div class="form-card p-4 mb-4">
+
+                            <h6 class="section-title mb-3">Basic Information</h6>
+
+                            <div class="row g-3">
+
+                                <!-- username -->
+                                <div class="col-lg-4 col-md-6">
+                                    <label>Username</label>
+                                    {{ form.username }}
+                                </div>
+
+                                <!-- email -->
+                                <div class="col-lg-4 col-md-6">
+                                    <label>Email</label>
+                                    {{ form.email }}
+                                </div>
+
+                                <!-- designation -->
+                                <div class="col-lg-4 col-md-6">
+                                    <label>Designation</label>
+                                    {{ form.designation }}
+                                </div>
+
+                                <!-- phone -->
+                                <div class="col-lg-4 col-md-6">
+                                    <label>Phone</label>
+                                    {{ form.phone }}
+                                </div>
+
+                                <!-- location -->
+                                <div class="col-lg-4 col-md-6">
+                                    <label>Location</label>
+                                    {{ form.location }}
+                                </div>
+
                             </div>
 
                         </div>
-                    </form>
+
+                        <!-- About -->
+                        <div class="form-card p-4 mb-4">
+
+                            <h6 class="section-title mb-3">About</h6>
+
+                            <!-- bio -->
+                            <label>Bio</label>
+                            {{ form.bio }}
+
+                        </div>
+
+                        <!-- Role -->
+                        <div class="form-card p-4 mb-4">
+
+                            {% if user.role == 'candidate' %}
+
+                                <h6 class="section-title mb-3">Professional Info</h6>
+
+                                <div class="row g-3">
+
+                                    <!-- skills -->
+                                    <div class="col-lg-4 col-md-6">
+                                        <label>Skills</label>
+                                        {{ form.skills }}
+                                    </div>
+
+                                    <!-- experience -->
+                                    <div class="col-lg-4 col-md-6">
+                                        <label>Experience</label>
+                                        {{ form.experience_years }}
+                                    </div>
+
+                                    <!-- education -->
+                                    <div class="col-lg-4 col-md-6">
+                                        <label>Education</label>
+                                        {{ form.education }}
+                                    </div>
+
+                                    <!-- github -->
+                                    <div class="col-lg-6">
+                                        <label>GitHub</label>
+                                        {{ form.github }}
+                                    </div>
+
+                                    <!-- linked in -->
+                                    <div class="col-lg-6">
+                                        <label>LinkedIn</label>
+                                        {{ form.linkedin }}
+                                    </div>
+
+                                </div>
+
+                            {% else %}
+
+                                <h6 class="section-title mb-3">Company Info</h6>
+
+                                <div class="row g-3">
+
+                                    <!-- company name -->
+                                    <div class="col-lg-4 col-md-6">
+                                        <label>Company Name</label>
+                                        {{ form.company_name }}
+                                    </div>
+
+                                    <!-- industry -->
+                                    <div class="col-lg-4 col-md-6">
+                                        <label>Industry</label>
+                                        {{ form.industry }}
+                                    </div>
+
+                                    <!-- website -->
+                                    <div class="col-lg-4">
+                                        <label>Website</label>
+                                        {{ form.company_website }}
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        <!-- actions -->
+                        <div class="d-flex justify-content-end gap-2">
+
+                            <a href="{% url 'profile_view' %}" class="btn btn-warning ">
+                                Cancel
+                            </a>
+
+                            <button type="submit" class="btn  px-4 mybtn btn-sm">
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-            </div>
+            </form>
+
         </div>
+
     </div>
 
 </section>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'scripts/profile.js' %}"></script>
 {% endblock %}
