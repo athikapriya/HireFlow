@@ -103,55 +103,54 @@ def employer_dashboard(request):
     total_hired = Application.objects.filter(
         job__in=jobs,
         status="accepted"
-    ).values('job').distinct().count()
+    ).count()
 
+    total_rejected = Application.objects.filter(
+        job__in=jobs,
+        status="rejected"
+    ).count()
 
-    today = timezone.now().date()
-    days = 7
+    total_pending = Application.objects.filter(
+        job__in=jobs,
+        status="pending"
+    ).count()
 
-    labels = []
-    applications_data = []
-    hired_data = []
-    rejected_data = []
+    recent_applications = Application.objects.filter(
+        job__employer=request.user
+    ).select_related('candidate', 'job') \
+    .order_by('-applied_at')[:7]
 
-    for i in range(days):
-        day = today - timedelta(days=(days - 1 - i))
-        labels.append(day.strftime("%d %b"))
-
-        apps = Application.objects.filter(
-            job__employer=request.user,
-            applied_at__date=day
-        ).count()
-
-        hired = Application.objects.filter(
-            job__employer=request.user,
-            status="accepted",
-            applied_at__date=day
-        ).count()
-
-        rejected = Application.objects.filter(
-            job__employer=request.user,
-            status="rejected",
-            applied_at__date=day
-        ).count()
-
-        applications_data.append(apps)
-        hired_data.append(hired)
-        rejected_data.append(rejected)
+    pie_labels = ["Jobs", "Applications", "Hired", "Rejected", "Pending"]
+    pie_data = [
+        total_jobs,
+        total_applications,
+        total_hired,
+        total_rejected,
+        total_pending
+    ]
 
     context = {
+        # jobs
         "jobs": latest_jobs,
         "total_jobs": total_jobs,
         "active_jobs": active_jobs,
         "closed_jobs": closed_jobs,
+
+        # applications
         "total_applications": total_applications,
         "total_hired": total_hired,
-        "page_title": page_title,
+        "total_rejected": total_rejected,
+        "total_pending": total_pending,
 
-        "chart_labels": labels,
-        "chart_applications": applications_data,
-        "chart_hired": hired_data,
-        "chart_rejected": rejected_data,
+        # pie chart 
+        "pie_labels": pie_labels,
+        "pie_data": pie_data,
+
+        # tables
+        "recent_applications": recent_applications,
+
+        # ui
+        "page_title": page_title,
     }
 
     return render(request, 'accounts/employer_dashboard.html', context)

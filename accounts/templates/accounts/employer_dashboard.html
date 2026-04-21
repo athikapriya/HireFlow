@@ -17,19 +17,11 @@
     {% include 'accounts/dashboard_cards.html' %}
 
     <div class="container-fluid content-section">
-        <div class="row">
+        <div class="row align-items-stretch">
 
-          <!-- =============== chart =============== -->
-            <div class="col-lg-6 g-4 chart">
-                <div class="section-bg p-4">
-                    <canvas id="employerChart"></canvas>
-                </div>
-            </div>
-
-            <!-- =============== applications =============== -->
-            <div class="col-lg-6 g-4 applications">
-                
-              <div class="section-bg py-3 ">
+            <!-- =============== Recent Jobs =============== -->
+            <div class="col-lg-7 g-4 applications d-flex">
+                <div class="section-bg py-3 w-100 h-100 d-flex flex-column">
                   <div class="mx-3">
                           
                       <div class="main-section__header">
@@ -43,7 +35,6 @@
                                     <tr>
                                         <th>Designation</th>
                                         <th>Type</th>
-                                        <th>Salary</th>
                                         <th class="text-center">Applications</th>
                                         <th>Status</th>
                                     </tr>
@@ -51,27 +42,43 @@
 
                                 <tbody>
                                     {% for job in jobs %}
-                                    <tr>
-                                        <td>{{ job.title }}</td>
-
+                                    <tr class="jobs-row">
+                                        
                                         <td>
-                                            <span class="badge-custom py-1 px-2 rounded-4 
-                                                {% if job.employment_type == 'FT' %}badge-ft
-                                                {% elif job.employment_type == 'PT' %}badge-pt
-                                                {% elif job.employment_type == 'CT' %}badge-ct
-                                                {% elif job.employment_type == 'IN' %}badge-in
-                                                {% elif job.employment_type == 'FL' %}badge-fl
-                                                {% endif %}">
-                                                {{ job.get_employment_type_display }}
-                                            </span>
+                                            <div class="d-flex align-items-center gap-2">
+
+                                                <!-- Company Logo -->
+                                                <div class="avatar-box">
+                                                    {% if job.company_logo %}
+                                                        <img src="{{ job.company_logo.url }}"
+                                                            class="rounded-circle"
+                                                            width="25"
+                                                            height="25"
+                                                            style="object-fit: cover;"
+                                                            aria-label="Company Logo">
+                                                    {% else %}
+                                                        <img src="{% static 'images/default_logo.png' %}"
+                                                            class="rounded-circle"
+                                                            width="25"
+                                                            height="25"
+                                                            style="object-fit: cover;"
+                                                            aria-label="Company Logo">
+                                                    {% endif %}
+                                                </div>
+
+                                                <!-- Job Info -->
+                                                <div class="d-flex flex-column">
+                                                    <span class="fw-medium">{{ job.title }}</span>
+                                                    <small class="text-muted">{{ job.company_name }}</small>
+                                                </div>
+
+                                            </div>
                                         </td>
 
                                         <td>
-                                            {% if job.salary %}
-                                                <span class="salary fw-medium">$ {{ job.salary }}</span>
-                                            {% else %}
-                                                N/A
-                                            {% endif %}
+                                            <span class="badge py-1 px-2 rounded-4 {{ job.badge_class }}">
+                                                {{ job.get_employment_type_display }}
+                                            </span>
                                         </td>
 
                                         <td class="text-center">
@@ -82,9 +89,9 @@
 
                                         <td>
                                             {% if job.is_active %}
-                                                <span class="status-badge status-active">Active</span>
+                                                <span class="badge bg-success">Active</span>
                                             {% else %}
-                                                <span class="status-badge status-closed">Closed</span>
+                                                <span class="badge bg-danger">Closed</span>
                                             {% endif %}
                                         </td>
                                     </tr>
@@ -106,6 +113,154 @@
                   </div>
               </div>
             </div>
+
+            <!-- =============== chart =============== -->
+            <div class="col-lg-5 g-4 chart d-flex">
+                <div class="section-bg p-4 w-100 h-100 d-flex align-items-center justify-content-center">
+                    <canvas id="employerChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <!-- ========== Recent Applications ========== -->
+            <div class="col-12 g-4">
+                <div class="section-bg p-3">
+                    <h3 class="main-heading mb-3">Recent Applications</h3>
+
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle table-hover">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>Candidate</th>
+                                    <th>Designation</th>
+                                    <th>Experience</th>
+                                    <th>Email</th>
+                                    <th>Match</th>
+                                    <th>Salary</th>
+                                    <th>Location</th>
+                                    <th>Applied</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for app in recent_applications %}
+                            <tr class="application-row">
+
+                                <!-- Candidate -->
+                                <td class="py-3">
+                                    <div class="d-flex align-items-center gap-2">
+
+                                        <div class="avatar-box">
+                                            {% if app.candidate.profile_image %}
+                                                <img src="{{ app.candidate.profile_image.url }}"
+                                                    class="rounded-circle"
+                                                    width="32"
+                                                    height="32"
+                                                    style="object-fit: cover;">
+                                            {% else %}
+                                                <img src="{% static 'images/profile.svg' %}"
+                                                    class="rounded-circle"
+                                                    width="32"
+                                                    height="32"
+                                                    style="object-fit: cover;">
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="d-flex flex-column">
+                                            <span class="fw-semibold">{{ app.candidate.username }}</span>
+                                            <small class="text-muted">Candidate</small>
+                                        </div>
+
+                                    </div>
+                                </td>
+
+                                <!-- designation -->
+                                <td class="py-3">
+                                    <div class="d-flex flex-column">
+                                        <span class="fw-medium">{{ app.job.title }}</span>
+                                        <small class="text-muted">{{ app.job.company_name }}</small>
+                                    </div>
+                                </td>
+
+                                <!-- experience -->
+                                <td class="py-3">
+                                    <span class="badge px-2 py-1 rounded-4 {{ app.job.experience_badge }}">
+                                        {{ app.job.experience }}
+                                    </span>
+                                </td>
+
+                                <!-- email -->
+                                <td class="py-3">
+                                    <a href="mailto:{{ app.candidate.email }}" class="table-meta email-text">
+                                        {{ app.candidate.email }}
+                                    </a>
+                                </td>
+
+                                <!-- match -->
+                                <td class="py-3">
+                                    <span class="badge bg-primary-subtle text-primary px-2 py-1 rounded-4">
+                                        {% if app.status == "accepted" %}
+                                            90% Match
+                                        {% elif app.status == "pending" %}
+                                            75% Match
+                                        {% else %}
+                                            60% Match
+                                        {% endif %}
+                                    </span>
+                                </td>
+
+                                <!-- Salary -->
+                                <td class="py-3">
+                                    {% if app.job.salary %}
+                                        <span class="table-meta salary-text">$ {{ app.job.salary }}</span>
+                                    {% else %}
+                                        <span class="table-meta muted">N/A</span>
+                                    {% endif %}
+                                </td>
+
+                                <!-- Location -->
+                                <td class="py-3">
+                                    <span class="table-meta location-text">
+                                        {{ app.job.location }}
+                                    </span>
+                                </td>
+
+                                <!-- Date -->
+                                <td class="py-3">
+                                    <span class="table-meta date-text">
+                                        {{ app.applied_at|date:"d M" }}
+                                    </span>
+                                </td>
+
+                                <!-- Status -->
+                                <td class="py-3">
+                                    <span class="badge px-2 py-1 rounded-4
+                                        {% if app.status == 'accepted' %}badge bg-success
+                                        {% elif app.status == 'rejected' %}badge bg-danger
+                                        {% else %}badge bg-warning
+                                        {% endif %}">
+                                        {{ app.status|title }}
+                                    </span>
+                                </td>
+
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">
+                                    No applications
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -115,70 +270,76 @@
 {% block script %}
 
 <script>
-  const labels = {{ chart_labels|safe }};
-  const applications = {{ chart_applications|safe }};
-  const hired = {{ chart_hired|safe }};
-  const rejected = {{ chart_rejected|safe }};
+    const labels = {{ pie_labels|safe }};
+    const values = {{ pie_data|safe }};
 
-  const data = {
-    labels: labels,
-    datasets: [
-      {
-        label: 'Applications',
-        data: applications,
-        borderColor: '#405189',
-        backgroundColor: 'transparent',
-        tension: 0.4,
-        pointRadius: 4
-      },
-      {
-        label: 'Hired',
-        data: hired,
-        borderColor: '#22CFCF',
-        backgroundColor: 'transparent',
-        tension: 0.4,
-        pointRadius: 4
-      },
-      {
-        label: 'Rejected',
-        data: rejected,
-        borderColor: '#FF4069',
-        backgroundColor: 'transparent',
-        tension: 0.4,
-        pointRadius: 4
-      }
-    ]
-  };
+    const data = {
+        labels: labels,
+        datasets: [{
+        label: 'Employer Overview',
+        data: values,
+        backgroundColor: [
+            'rgba(64, 81, 137, 0.75)',   // Jobs
+            'rgba(34, 207, 207, 0.75)',  // Applications
+            'rgba(40, 199, 111, 0.75)',  // Hired
+            'rgba(255, 64, 105, 0.75)',  // Rejected
+            'rgba(255, 176, 32, 0.75)'   // Pending
+        ],
+        borderWidth: 1,
+        borderColor: '#fff'
+        }]
+    };
 
-  const config = {
-    type: 'line',
-    data: data,
-    options: {
-      responsive: true,
-      interaction: {
-        intersect: false,
-        mode: 'index',
-      },
-      plugins: {
-        title: {
-          display: true,
-          text: 'Applications vs Hired vs Rejected (Last 7 Days)'
+    const config = {
+        type: 'polarArea',
+        data: data,
+        options: {
+        responsive: true,
+
+        scales: {
+            r: {
+            ticks: {
+                display: false
+            },
+            pointLabels: {
+                display: true,
+                centerPointLabels: true,
+                font: {
+                size: 12,
+                weight: '500'
+                }
+            }
+            }
         },
-        tooltip: {
-          position: 'nearest'
-        },
-        legend: {
-          position: 'top'
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  };
 
-  new Chart(document.getElementById('employerChart'), config);
+        plugins: {
+            legend: {
+            position: 'bottom',
+            labels: {
+                usePointStyle: true,
+                padding: 12
+            }
+            },
+
+            title: {
+            display: true,
+            text: 'Employer Overview',
+            font: {
+                size: 14
+            }
+            },
+
+            tooltip: {
+            callbacks: {
+                label: function(context) {
+                return `${context.label}: ${context.raw}`;
+                }
+            }
+            }
+        }
+        }
+    };
+
+    new Chart(document.getElementById('employerChart'), config);
 </script>
 {% endblock %}

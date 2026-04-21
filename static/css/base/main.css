@@ -78,6 +78,7 @@ h1, h2, h3, h4, h5, h6{
 .content-section{
     margin-bottom: 70px !important;
 }
+
 /* =============== common code ends here =============== */
 
 
@@ -89,6 +90,10 @@ h1, h2, h3, h4, h5, h6{
 
 .brand-color__font{
     color: var(--brand-color);
+}
+
+.brand-support__font{
+    color: var(--brand-support);
 }
 
 .nav-link__color{

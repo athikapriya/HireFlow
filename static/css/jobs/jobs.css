@@ -55,30 +55,26 @@ table tr{
 
 /* =============== experience badge starts here =============== */
 
-
-.badge-ft {
-    background-color: rgba(64, 81, 137, 0.2);
-    color: var(--brand-color);
+.bg-warning-subtle {
+    background-color: rgba(255, 193, 7, 0.15) !important;
+}
+.text-warning {
+    color: #b78900 !important;
 }
 
-.badge-pt {
-    background-color: rgba(10, 179, 156, 0.2);
-    color: var(--brand-support);
+.bg-info-subtle {
+    background-color: rgba(13, 202, 240, 0.15) !important;
+}
+.text-info {
+    color: #0aa2c0 !important;
 }
 
-.badge-ct {
-    background-color: rgba(255, 193, 7, 0.2);
-    color: #b78900;
+.bg-primary-subtle {
+  background-color: rgba(64, 81, 137, 0.15) !important;
 }
 
-.badge-in {
-    background-color: rgba(13, 202, 240, 0.2);
-    color: #0aa2c0;
-}
-
-.badge-fl {
-    background-color: rgba(220, 53, 69, 0.2);
-    color: #dc3545;
+.text-primary {
+  color: #405189 !important;
 }
 /* =============== experience badge ends here =============== */
 
@@ -106,25 +102,7 @@ table tr{
 /* =============== skill badge ends here =============== */
 
 
-/* =============== status badge starts here =============== */
-.status-badge, .badge-custom {
-    font-size: 12px;
-    padding: 4px 9px;
-    border-radius: 50px;
-    font-weight: 500;
-}
-
-.status-active {
-    background-color: rgba(10, 179, 156, 0.15);
-    color: var(--brand-support);
-}
-
-.status-closed {
-    background-color: rgba(220, 53, 69, 0.2);
-    color: #dc3545;
-}
-/* =============== status badge ends here =============== */
-
+/* =============== action link starts =============== */
 .actions a{
     display: inline-block;
     padding: 0.4rem 0.5rem;
@@ -162,6 +140,8 @@ table tr{
 .actions .restore-job:hover{
     background-color: var(--brand-support);
 }
+/* =============== action link ends =============== */
+
 
 /* =============== job form starts =============== */
 .form-select {
@@ -272,3 +252,85 @@ input[type="file"].form-control:focus {
         font-size: 0.9rem;
     }
 }
+
+/* =============== chart section starts =============== */
+#employerChart {
+    max-height: 400px;
+}
+
+.chart canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.chart .section-bg {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+/* =============== chart section ends =============== */
+
+
+/* =============== recent applications starts =============== */
+.application-row, .jobs-row {
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #f1f1f1;
+    cursor: pointer;
+}
+
+.application-row:hover, .jobs-row:hover {
+    background-color: #fafafa;
+    transform: translateY(-1px);
+}
+
+.avatar-box img {
+    border: 1px solid #eee;
+}
+
+.badge {
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+/* =============== recent applications ends =============== */
+
+
+
+/* =============== table meta starts =============== */
+.table-meta {
+    font-size: 12px;
+    color: var(--secondary-color);
+    font-weight: 400;
+}
+
+.email-text {
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.email-text:hover {
+    color: var(--brand-color);
+}
+
+.salary-text {
+    font-weight: 500;
+    color: var(--brand-support);
+}
+
+.location-text {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #f6f7f9;
+    border-radius: 20px;
+    font-size: 11.5px;
+}
+
+.date-text {
+    font-size: 11.5px;
+    color: #9aa0a6;
+}
+
+.muted {
+    font-size: 12px;
+    color: #b0b0b0;
+}
+/* =============== table meta ends =============== */

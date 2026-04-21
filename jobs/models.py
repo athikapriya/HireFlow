@@ -56,3 +56,21 @@ class Job(models.Model):
 
     def __str__(self):
         return f"{self.title} at {self.location} - {self.company_name}"
+
+    def badge_class(self):
+        return {
+            "FT": "bg-success-subtle text-success",
+            "PT": "bg-danger-subtle text-danger",
+            "CT": "bg-warning-subtle text-warning",
+            "IN": "bg-info-subtle text-info",
+            "FL": "bg-primary-subtle text-primary",
+        }.get(self.employment_type, "bg-light text-dark")
+
+    def experience_badge(self):
+        return {
+            "0-1 year": "bg-success-subtle text-success",
+            "2 years": "bg-info-subtle text-info",
+            "3 years": "bg-primary-subtle text-primary",
+            "4 years": "bg-warning-subtle text-warning",
+            "5 years or above": "bg-danger-subtle text-danger",
+        }.get(self.experience, "bg-secondary-subtle text-secondary")
