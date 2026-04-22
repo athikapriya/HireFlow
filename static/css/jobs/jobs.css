@@ -369,3 +369,22 @@ input[type="file"].form-control:focus {
     color: var(--brand-support);
 }
 /* =============== employer applications table upgrade ends =============== */
+
+.deadline-badge {
+    background: rgba(255, 193, 7, 0.12);
+    color: #b78900;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+#browse_jobs .card {
+    transition: all 0.25s ease;
+    border: 1px solid #eef1f6;
+}
+
+#browse_jobs .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}

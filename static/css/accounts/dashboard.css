@@ -77,27 +77,6 @@
     background-color: rgba(64, 81, 137, 0.2);
 }
 
-.saved-job__icon {
-    padding: 7px;
-    border-radius: 3px;
-    background-color: rgba(64, 81, 137, 0.15);
-    cursor: pointer;
-}
-
-.saved-job__icon i {
-    color: #405189;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-.saved-job__icon:hover {
-    background-color: #405189;
-}
-
-.saved-job__icon:hover i {
-    color: var(--quaternary-color);
-}
-
 .job-description{
     font-size: 0.88rem;
     color: var(--secondary-color)

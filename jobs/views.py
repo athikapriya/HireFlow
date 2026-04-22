@@ -185,6 +185,10 @@ def browse_jobs(request):
     page_number = request.GET.get('page')
     jobs_page = paginator.get_page(page_number)
 
+    today = timezone.now().date()
+
+    Job.objects.filter(deadline__lt=today, is_active=True).update(is_active=False)
+
     context = {
         "page_title" : page_title,
         "jobs": jobs_page, 
