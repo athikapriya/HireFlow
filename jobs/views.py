@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 from .models import Job, Skill
 from .forms import JobForm
@@ -209,6 +210,7 @@ def browse_jobs(request):
 def job_details(request, pk):
     job = get_object_or_404(Job, id=pk)
 
+    today = timezone.now().date()
     has_applied = False
 
     if request.user.is_authenticated:
@@ -220,5 +222,6 @@ def job_details(request, pk):
     context = {
         "job": job,
         "has_applied": has_applied,
+        "today": today,
     }
     return render(request, 'jobs/job_details.html', context)

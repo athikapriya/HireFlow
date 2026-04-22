@@ -388,3 +388,44 @@ input[type="file"].form-control:focus {
     transform: translateY(-4px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
+
+
+/* =============== job details starts =============== */
+
+.job-stats-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.stat-card{
+    background: #f8f9fc;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.stat-card small{
+    color: #6c757d;
+    font-size: 12px;
+}
+
+.stat-card h6{
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.stat-card.danger h6{
+    color: #dc3545;
+}
+
+.description-box p{
+    font-size: 0.95rem;
+}
+
+.apply-bar{
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+}
+
+/* =============== job details ends =============== */

@@ -69,6 +69,7 @@ h1, h2, h3, h4, h5, h6{
 
 .mybtn:hover{
     background-color: var(--brand-support);
+    color: var(--quaternary-color);
 }
 
 .form-select{
