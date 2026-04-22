@@ -9,73 +9,84 @@
 
 <section id="apply_job">
 
-    <!-- page title -->
     {% include 'base/page_title.html' %}
 
     <div class="container-fluid mt-3 content-section">
 
-        <div class="job-form section-bg py-3">
-            <div class="mx-3">
+        <div class="row g-4">
 
-                <!-- header -->
-                <div class="main-section__header">
-                    <h3 class="main-heading ms-2 mb-0">Apply for {{job.title}}</h3>
+            <!-- job info(left side) -->
+            <div class="col-xl-5">
+
+                <div class="card section-bg p-3 h-100">
+
+                    <div class="d-flex align-items-center gap-3 mb-3">
+
+                        <div class="logo-box bg-light rounded d-flex align-items-center justify-content-center">
+                            {% if job.company_logo %}
+                                <div style="height: 40; width: 40;">
+                                    <img src="{{ job.company_logo.url }}" class="company-logo h-100 w-100" aria-label="company logo" >
+                                </div>
+                            {% else %}
+                                <div style="height: 40; width: 40;">
+                                    <img src="{% static 'images/default_logo.png' %}" alt="logo" class="h-100 w-100">
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <h5 class="mb-0">{{ job.title }}</h5>
+                            <small class="text-muted">{{ job.company_name }}</small>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2 small text-muted mb-3">
+                        <span><i class="fa-solid fa-location-dot"></i> {{ job.location }}</span>
+                        <span><i class="fa-solid fa-briefcase"></i> {{ job.get_employment_type_display }}</span>
+                        <span><i class="fa-solid fa-layer-group"></i> {{ job.experience }}</span>
+                    </div>
+
+                    <p class="small text-muted">
+                        {{ job.description}}
+                    </p>
+
                 </div>
 
-                <!-- job info -->
-                <div class="mt-3 p-3 border rounded bg-light">
-                    <h5 class="mb-1">{{ job.title }}</h5>
-                    <p class="mb-1 text-muted">{{ job.company_name }}</p>
-                    <small>
-                        <i class="fa-solid fa-location-dot"></i> {{ job.location }}
+            </div>
+
+            <!-- apply form -->
+            <div class="col-xl-7">
+
+                <div class="card section-bg p-3">
+
+                    <h5 class="mb-1">Apply for this job</h5>
+                    <small class="text-muted d-block mb-3">
+                        Submit your application details
                     </small>
-                </div>
 
-                <!-- form -->
-                <div class="main-section__body mt-4">
-                    
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
 
-                        <div class="row g-4">
+                        <div class="mb-3">
+                            <label class="form-label">Resume</label>
+                            {{ form.resume }}
+                        </div>
 
-                            <!-- resume -->
-                            <div class="col-md-6">
-                                {{ form.resume.label_tag }}
-                                {{ form.resume }}
+                        <div class="mb-3">
+                            <label class="form-label">Cover Letter</label>
+                            {{ form.cover_letter }}
+                        </div>
 
-                                {% if form.resume.errors %}
-                                    <div class="text-danger small mt-1">
-                                        {% for error in form.resume.errors %}
-                                            {{ error }}
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
+                        <div class="d-flex justify-content-end gap-2 mt-4">
 
-                            <!-- cover letter -->
-                            <div class="col-12">
-                                {{ form.cover_letter.label_tag }}
-                                {{ form.cover_letter }}
+                            <a href="{% url 'browse_jobs' %}" class="btn btn-warning ">
+                                Cancel
+                            </a>
 
-                                {% if form.cover_letter.errors %}
-                                    <div class="text-danger small mt-1">
-                                        {% for error in form.cover_letter.errors %}
-                                            {{ error }}
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-
-                            <!-- submit buttons -->
-                            <div class="d-flex justify-content-end gap-3 mt-3">
-                                <a href="{% url 'browse_jobs' %}" class="btn btn-warning">
-                                    Cancel
-                                </a>
-                                <button type="submit" class="btn btn-submit">
-                                    Apply Now
-                                </button>
-                            </div>
+                            <button class="btn mybtn">
+                                Apply Now
+                            </button>
 
                         </div>
 
@@ -84,6 +95,7 @@
                 </div>
 
             </div>
+
         </div>
 
     </div>

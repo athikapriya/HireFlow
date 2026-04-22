@@ -555,3 +555,13 @@ input[type="file"].form-control:focus {
     opacity: 0.5;
 }
 /* =============== applied jobs ends here =============== */
+
+
+/* =============== apply job file =============== */
+
+input[type="file"],
+textarea,
+input{
+    border-radius: 8px !important;
+    font-size: 13px;
+}
