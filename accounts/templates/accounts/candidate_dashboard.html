@@ -18,12 +18,11 @@
 
 
     <div class="container-fluid content-section">
-        <div class="row">
+        <div class="row align-items-stretch">
 
             <!-- =============== applications =============== -->
-            <div class="col-lg-7 col-xl-8 g-4 applications">
-                
-             <div class="section-bg py-3 ">
+            <div class="col-lg-7 g-4 applications d-flex">
+                <div class="section-bg py-3 w-100 h-100 d-flex flex-column">
                 <div class="mx-3">
                         
                     <div class="main-section__header">
@@ -35,8 +34,8 @@
 
                             <table class="table table-sm align-middle table-nowrap table-hover">
                                 <thead class="table-secondary">
-                                    <th>Job Title</th>
-                                    <th>Company</th>
+                                    <th>Job & Company</th>
+                                    <th>Salary</th>
                                     <th>Applied On</th>
                                     <th>Status</th>
                                 </thead>
@@ -44,10 +43,57 @@
                                 <tbody>
                                     {% if recent_applications %}
                                         {% for app in recent_applications %}
-                                        <tr>
-                                            <td>{{ app.job.title }}</td>
-                                            <td>{{ app.job.employer.username }}</td>
-                                            <td>{{ app.applied_at|date:"M d, Y" }}</td>
+                                        <tr class="application-row">
+
+                                            <!-- jobs and company -->
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+
+                                                    <!-- Company Logo -->
+                                                    <div class="avatar-box">
+                                                        {% if app.job.company_logo %}
+                                                            <img src="{{ app.job.company_logo.url }}"
+                                                                class="rounded-circle"
+                                                                width="32"
+                                                                height="32"
+                                                                style="object-fit: cover;"
+                                                                aria-label="Company Logo">
+                                                        {% else %}
+                                                            <img src="{% static 'images/default_logo.png' %}"
+                                                                class="rounded-circle"
+                                                                width="32"
+                                                                height="32"
+                                                                style="object-fit: cover;"
+                                                                aria-label="Company Logo">
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <!-- Job Info -->
+                                                    <div class="d-flex flex-column">
+                                                        <span class="fw-semibold">{{ app.job.title }}</span>
+                                                        <small class="text-muted">{{ app.job.company_name }}</small>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+
+                                            <!-- salary -->
+                                            <td>
+                                                {% if app.job.salary %}
+                                                    <span class="table-meta salary-text">$ {{ app.job.salary }}</span>
+                                                {% else %}
+                                                    <span class="table-meta muted">N/A</span>
+                                                {% endif %}
+                                            </td>
+                                            
+                                            <!-- applied date -->
+                                            <td>
+                                                <span class="table-meta date-text">
+                                                    {{ app.applied_at|date:"d M" }}
+                                                </span>
+                                            </td>
+
+                                            <!-- status -->
                                             <td>
                                                 {% if app.status == "pending" %}
                                                     <span class="badge bg-warning text-dark">Pending</span>
@@ -77,13 +123,144 @@
             </div>
 
             <!-- =============== chart =============== -->
-            <div class="col-lg-5 col-xl-4 g-4 chart">
-                <div class="section-bg py-3">
-                    <canvas id="applicationChart"></canvas>
+            <div class="col-lg-5 g-4 chart d-flex">
+                <div class="section-bg py-3 w-100 h-100 d-flex align-items-center justify-content-center">
+                    <canvas id="candidateChart"></canvas>
                 </div>
             </div>
 
         </div>
+
+
+        <!-- =============== recommended jobs table =============== -->
+        <div class="row">
+
+            <div class="col-12 g-4">
+                <div class="section-bg p-3">
+                    <h3 class="main-heading mb-3">Recommended Jobs</h3>
+
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle table-hover">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>Job</th>
+                                    <th>Type</th>
+                                    <th>Match</th>
+                                    <th>Location</th>
+                                    <th>Salary</th>
+                                    <th>Deadline</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for job in recommended_jobs %}
+                                <tr class="jobs-row">
+
+                                    <!-- job -->
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+
+                                            <div class="avatar-box">
+                                                {% if job.company_logo %}
+                                                    <img src="{{ job.company_logo.url }}"
+                                                        class="rounded-circle"
+                                                        width="32"
+                                                        height="32"
+                                                        style="object-fit: cover;" aria-label="company logo">
+                                                {% else %}
+                                                    <img src="{% static 'images/default_logo.png' %}"
+                                                        class="rounded-circle"
+                                                        width="32"
+                                                        height="32"
+                                                        style="object-fit: cover;" aria-label="default logo">
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="d-flex flex-column">
+                                                <span class="fw-semibold">{{ job.title }}</span>
+                                                <small class="text-muted">{{ job.company_name }}</small>
+                                            </div>
+
+                                        </div>
+                                    </td>
+
+                                    <!-- type -->
+                                    <td>
+                                        <span class="badge {{ job.badge_class }}">
+                                            {{ job.get_employment_type_display }}
+                                        </span>
+                                    </td>
+
+                                    <!-- match -->
+                                    <td>
+                                        <span class="badge bg-primary-subtle text-primary">
+                                            {{ job.match_score }}%
+                                        </span>
+                                    </td>
+
+                                    <!-- location -->
+                                    <td>
+                                        <span class="table-meta location-text">
+                                            {{ job.location }}
+                                        </span>
+                                    </td>
+
+                                    <!-- salary -->
+                                    <td>
+                                        {% if job.salary %}
+                                            <span class="salary-text">$ {{ job.salary }}</span>
+                                        {% else %}
+                                            <span class="muted">N/A</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <!-- deadline -->
+                                    <td>
+                                        {% if job.deadline %}
+                                            {% if job.deadline < today %}
+                                                <span class="badge bg-danger-subtle text-danger">
+                                                    Expired
+                                                </span>
+                                            {% elif job.deadline <= upcoming_deadline %}
+                                                <span class="badge bg-warning-subtle text-warning">
+                                                    {{ job.deadline|date:"d M" }} (Soon)
+                                                </span>
+                                            {% else %}
+                                                <span class="table-meta date-text">
+                                                    {{ job.deadline|date:"d M" }}
+                                                </span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="table-meta muted">No deadline</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <!-- actions -->
+                                    <td class="actions">
+                                        <a href="{% url 'job_details' job.id %}" aria-label="details" class="edit-job">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-3">
+                                        No recommended jobs available
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
 </div>
@@ -92,49 +269,83 @@
 
 {% block script %}
 <script>
+    const labels = ['Applied', 'Accepted', 'Pending', 'Rejected'];
+    const values = [
+        {{ total_applied|default:0 }},
+        {{ total_accepted|default:0 }},
+        {{ total_pending|default:0 }},
+        {{ total_rejected|default:0 }}
+    ];
+
     const data = {
-        labels: ['Applied','Accepted', 'Pending', 'Rejected'],
+        labels: labels,
         datasets: [{
-            data: [
-                {{ total_applied|default:0 }},
-                {{ total_accepted|default:0 }},
-                {{ total_pending|default:0 }},
-                {{ total_rejected|default:0 }}
-            ],
+            label: 'Application Overview',
+            data: values,
             backgroundColor: [
-                '#059BFF', // Total applied
-                '#22CFCF',  // Accepted
-                '#FFC107',  // Pending
-                '#FF4069'   // Rejected
+                'rgba(64, 81, 137, 0.75)',
+                'rgba(34, 207, 207, 0.75)',
+                'rgba(40, 199, 111, 0.75)',
+                'rgba(255, 64, 105, 0.75)'
             ],
-            borderWidth: 1
+            borderWidth: 1,
+            borderColor: '#fff'
         }]
     };
 
     const config = {
-        type: 'doughnut',
+        type: 'polarArea',
         data: data,
         options: {
             responsive: true,
-            animation: {
-                animateRotate: true,
-                animateScale: true,
-                duration: 1200,
-                easing: 'easeOutBounce'
+
+            scales: {
+                r: {
+                    ticks: {
+                        display: false
+                    },
+                    pointLabels: {
+                        display: true,
+                        centerPointLabels: true,
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        }
+                    }
+                }
             },
+
             plugins: {
                 legend: {
-                    position: 'top',
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 12
+                    }
                 },
+
                 title: {
                     display: true,
-                    text: 'Your Applications Status Overview'
+                    text: 'Application Overview',
+                    font: {
+                        size: 14
+                    }
+                },
+
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.label}: ${context.raw}`;
+                        }
+                    }
                 }
             }
         }
     };
 
-    const ctx = document.getElementById('applicationChart');
-    new Chart(ctx, config);
+    new Chart(
+        document.getElementById('candidateChart'),
+        config
+    );
 </script>
 {% endblock %}

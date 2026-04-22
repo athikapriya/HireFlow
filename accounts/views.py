@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.db.models import Count
 from django.utils import timezone
 from datetime import timedelta
+from django.db.models import Q
 
 
 from .forms import CandidateRegisterForm, EmployerRegisterForm, CandidateProfileForm, EmployerProfileForm
@@ -161,7 +162,9 @@ def employer_dashboard(request):
 @candidate_required
 def candidate_dashboard(request):
     page_title = "Dashboard"
+    user = request.user 
 
+    # stats
     total_applied = Application.objects.filter(candidate=request.user).count()
     total_accepted = Application.objects.filter(candidate=request.user, status="accepted").count()
     total_pending = Application.objects.filter(candidate=request.user, status="pending").count()
@@ -169,7 +172,42 @@ def candidate_dashboard(request):
 
     recent_applications = Application.objects.filter(candidate=request.user)\
                             .select_related('job', 'job__employer')\
-                            .order_by('-applied_at')[:6]
+                            .order_by('-applied_at')[:5]
+
+    # for recommended jobs
+    user_skills = []
+    if user.skills:
+        user_skills = [s.strip().lower() for s in user.skills.split(",")]
+
+    jobs_qs = Job.objects.filter(is_active=True).prefetch_related('skills')
+
+    # exclude already applied jobs
+    applied_job_ids = Application.objects.filter(candidate=user).values_list('job_id', flat=True)
+    jobs_qs = jobs_qs.exclude(id__in=applied_job_ids)
+
+    # filter
+    if user_skills:
+        skill_query = Q()
+        for skill in user_skills:
+            skill_query |= Q(skills__name__icontains=skill)
+
+        jobs_qs = jobs_qs.filter(skill_query).distinct()
+
+    recommended_jobs = jobs_qs[:6]
+
+    # score matching
+    def calculate_match(job, user_skills):
+        job_skills = [s.name.lower() for s in job.skills.all()]
+        if not job_skills:
+            return 0
+        matched = len(set(job_skills) & set(user_skills))
+        return int((matched / len(job_skills)) * 100)
+
+    for job in recommended_jobs:
+        job.match_score = calculate_match(job, user_skills)
+
+    today = timezone.now().date()
+    upcoming_deadline = today + timedelta(days=3)
 
     context = {
         "page_title": page_title,
@@ -178,6 +216,12 @@ def candidate_dashboard(request):
         "total_pending": total_pending,
         "total_rejected": total_rejected,
         "recent_applications": recent_applications,
+
+        "recent_applications": recent_applications,
+        "recommended_jobs": recommended_jobs,
+
+        "today": today,
+        "upcoming_deadline": upcoming_deadline,
     }
 
     return render(request, 'accounts/candidate_dashboard.html', context)
