@@ -429,3 +429,129 @@ input[type="file"].form-control:focus {
 }
 
 /* =============== job details ends =============== */
+
+
+
+/* =============== applied jobs starts here =============== */
+
+.applied-wrapper{
+    border-radius: 12px;
+}
+
+.applied-list{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.applied-item{
+    display: grid;
+    grid-template-columns: 2fr 1fr 0.8fr 0.6fr;
+    align-items: center;
+
+    padding: 14px 12px;
+    border: 1px solid #eef1f6;
+    border-radius: 10px;
+    background: #fff;
+
+    transition: all 0.25s ease;
+}
+
+.applied-item:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.07);
+}
+
+.applied-left{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.applied-left .job-title{
+    font-size: 14px;
+    margin: 0;
+    font-weight: 600;
+    color: var(--tertiary-color);
+}
+
+.meta-line{
+    font-size: 12px;
+    color: var(--secondary-color);
+}
+
+.applied-middle{
+    display: flex;
+    gap: 20px;
+}
+
+.meta-block small{
+    font-size: 11px;
+    color: var(--secondary-color);
+}
+
+.meta-block div{
+    font-size: 12.5px;
+    font-weight: 500;
+}
+
+.status-badge{
+    font-size: 11.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-badge.pending{
+    background: rgba(255,193,7,0.15);
+    color: #b78900;
+}
+
+.status-badge.accepted{
+    background: rgba(10,179,156,0.15);
+    color: var(--brand-support);
+}
+
+.status-badge.rejected{
+    background: rgba(220,53,69,0.15);
+    color: #dc3545;
+}
+
+.view-btn{
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 12px;
+
+    background: rgba(64,81,137,0.1);
+    color: var(--brand-color);
+
+    border-radius: 6px;
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+.view-btn:hover{
+    background: var(--brand-color);
+    color: #fff;
+}
+
+.applied-left .logo-box{
+    width: 38px;
+    height: 38px;
+    background: rgba(64,81,137,0.08);
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.applied-left .company-logo{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.empty-state i{
+    opacity: 0.5;
+}
+/* =============== applied jobs ends here =============== */

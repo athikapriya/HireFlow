@@ -8,69 +8,129 @@
 
 {% block content %}
 
-<section id="applied_jobs">
+<section id="applied_jobs" class="py-3">
 
-    <!-- page title -->
-    {% include 'base/page_title.html' %}
+<div class="container-fluid content-section">
 
-    <div class="container-fluid mt-3 content-section">
+    <div class="section-bg p-4 applied-wrapper">
 
-        <div class="jobs-card">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
 
-            {% if applications %}
-                <div class="row g-4">
-                    {% for app in applications %}
-                        <div class="col-sm-6 col-xl-4">
-                            <div class="card card-body p-3">
+            <div>
+                <h5 class="main-heading mb-1">My Applications</h5>
+                <small class="text-muted">
+                    Track your job applications in one place
+                </small>
+            </div>
 
-                                <!-- Job Info -->
-                                <h5 class="main-heading mb-1">{{ app.job.title }}</h5>
-                                <p class="secondary-color mb-2">{{ app.job.company_name }}</p>
-
-                                <p class="mb-2" style="font-size: 15px;">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                    {{ app.job.location }}
-                                </p>
-
-                                <p class="mb-2">
-                                    <strong>Applied:</strong> {{ app.applied_at|date:"M d, Y" }}
-                                </p>
-
-                                <!-- Status -->
-                                <div class="mb-3">
-                                    {% if app.status == 'pending' %}
-                                        <span class="badge bg-warning">Pending</span>
-                                    {% elif app.status == 'accepted' %}
-                                        <span class="badge bg-success">Accepted</span>
-                                    {% else %}
-                                        <span class="badge bg-danger">Rejected</span>
-                                    {% endif %}
-                                </div>
-
-                                <!-- Buttons -->
-                                <div class="d-flex gap-2 job-btn">
-                                    <a href="{% url 'job_details' app.job.id %}" class="text-decoration-none  btn" style="background-color: var(--brand-color); color: var(--quaternary-color);">
-                                        View Job
-                                    </a>
-                                </div>
-
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="text-center mt-4">
-                    <h5>No applications yet</h5>
-                    <p class="text-muted">Start applying to jobs to see them here.</p>
-                    <a href="{% url 'browse_jobs' %}" class="btn btn-primary">
-                        Browse Jobs
-                    </a>
-                </div>
-            {% endif %}
+            <div class="text-muted small">
+                Total: <strong>{{ applications|length }}</strong>
+            </div>
 
         </div>
 
+        <hr>
+
+        {% if applications %}
+
+            <div class="applied-list">
+
+                {% for app in applications %}
+
+                    <div class="applied-item">
+
+                        <!-- company -->
+                        <div class="applied-left">
+
+                            <div class="logo-box">
+                                {% if app.job.company_logo %}
+                                    <img src="{{ app.job.company_logo.url }}" class="company-logo" aria-label="company logo">
+                                {% else %}
+                                    <img src="{% static 'images/default_logo.png' %}" class="company-logo" aria-label="default logo">
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <h6 class="job-title">{{ app.job.title }}</h6>
+                                <div class="meta-line">
+                                    {{ app.job.company_name }} • {{ app.job.location }}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- details -->
+                        <div class="applied-middle">
+
+                            <div class="meta-block">
+                                <small>Applied</small>
+                                <div>{{ app.applied_at|date:"d M Y" }}</div>
+                            </div>
+
+                            <div class="meta-block">
+                                <small>Type</small>
+                                <div>
+                                    <span class="badge {{ app.job.badge_class }}">
+                                        {{ app.job.get_employment_type_display }}
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- status -->
+                        <div class="applied-right">
+
+                            {% if app.status == 'pending' %}
+                                <span class="status-badge pending">Pending</span>
+
+                            {% elif app.status == 'accepted' %}
+                                <span class="status-badge accepted">Accepted</span>
+
+                            {% else %}
+                                <span class="status-badge rejected">Rejected</span>
+                            {% endif %}
+
+                        </div>
+
+                        <!-- action -->
+                        <div class="applied-action">
+                            <a href="{% url 'job_details' app.job.id %}" class="view-btn">
+                                View Job
+                            </a>
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <!-- empty state -->
+            <div class="empty-state text-center py-5">
+
+                <div class="mb-3">
+                    <i class="fa-solid fa-briefcase fa-2x text-muted"></i>
+                </div>
+
+                <h6>No applications yet</h6>
+                <p class="text-muted small">
+                    Start applying to jobs and track them here.
+                </p>
+
+                <a href="{% url 'browse_jobs' %}" class="btn mybtn px-4">
+                    Browse Jobs
+                </a>
+
+            </div>
+
+        {% endif %}
+
     </div>
+
+</div>
 
 </section>
 
