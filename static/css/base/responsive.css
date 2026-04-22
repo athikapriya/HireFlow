@@ -33,9 +33,13 @@
         display: block;
     }
 
-    /* .content-section{
-        margin-bottom: 2000px !important;
-    } */
+    #sidebar-wrapper{
+        display: none;
+    }
+
+    footer{
+        left: 0;
+    }
 }
 
 
