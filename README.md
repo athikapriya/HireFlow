@@ -53,20 +53,32 @@ This project demonstrates backend engineering concepts such as **authentication,
 **Source Code** : [Github Repository](https://github.com/athikapriya/HireFlow) [![GitHub](https://img.shields.io/badge/github-repo-blue?logo=github&logoColor=white)](https://github.com/athikapriya/HireFlow)
 
 ### Preview
-#### Login Page
+#### Landing / Auth(Login Page)
 ![Login Page](screenshots/login.png)
 
-#### Employer Dashboard
+#### Employer Flow
+##### Employer Dashboard
 ![Employer Dashboard](screenshots/employer_dashboard.png)
 
-#### Employer Manage Jobs
-![Manage Jobs](screenshots/manage_jobs.png)
+##### Employer Applications
+![Employer Applications](screenshots/employer_applications.png)
 
-#### Candidate Dashboard
+#### Candidate Flow
+##### Candidate Dashboard
 ![Candidate Dashboard](screenshots/candidate_dashboard.png)
 
-#### Candidate Browse Jobs
+##### Candidate Browse Jobs
 ![Browse Jobs](screenshots/browse_jobs.png)
+
+##### Candidate Applications
+![Candidate Applications](screenshots/candidate_applications.png)
+
+#### Job Management
+##### Manage Jobs
+![Manage Jobs](screenshots/manage_jobs.png)
+
+##### Job Form
+![Create and update Jobs](screenshots/create&update.png)
 
 
 ### API Endpoints
