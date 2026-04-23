@@ -84,8 +84,7 @@
                         <table class="table table-sm align-middle table-nowrap table-hover">
 
                             <thead class="table-secondary">
-                                <th>Company Name</th>
-                                <th>Designation</th>
+                                <th>Job & Company</th>
                                 <th>Type</th>
                                 <th>Experience</th>
                                 <th>Salary</th>
@@ -111,17 +110,9 @@
                                             </div>
 
                                             <div class="d-flex flex-column">
-                                                <span class="fw-medium">{{ job.company_name }}</span>
-                                                <small class="table-meta">Company</small>
+                                                <span class="fw-medium">{{ job.title }}</span>
+                                                <small class="table-meta">{{ job.company_name }}</small>
                                             </div>
-                                        </div>
-                                    </td>
-
-                                    <!-- designation -->
-                                   <td>
-                                        <div class="d-flex flex-column">
-                                            <span class="fw-medium">{{ job.title }}</span>
-                                            <small class="table-meta">Job Role</small>
                                         </div>
                                     </td>
 

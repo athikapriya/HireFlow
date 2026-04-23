@@ -21,7 +21,7 @@
         <div class="row align-items-stretch">
 
             <!-- =============== applications =============== -->
-            <div class="col-lg-7 g-4 applications d-flex">
+            <div class="col-lg-6 col-xl-7 g-4 applications d-flex">
                 <div class="section-bg py-3 w-100 h-100 d-flex flex-column">
                 <div class="mx-3">
                         
@@ -123,7 +123,7 @@
             </div>
 
             <!-- =============== chart =============== -->
-            <div class="col-lg-5 g-4 chart d-flex">
+            <div class="col-lg-6 col-xl-5 g-4 chart d-flex">
                 <div class="section-bg py-3 w-100 h-100 d-flex align-items-center justify-content-center">
                     <canvas id="candidateChart"></canvas>
                 </div>
@@ -140,7 +140,7 @@
                     <h3 class="main-heading mb-3">Recommended Jobs</h3>
 
                     <div class="table-responsive">
-                        <table class="table table-sm align-middle table-hover">
+                        <table class="table table-sm align-middle table-nowrap table-hover">
                             <thead class="table-secondary">
                                 <tr>
                                     <th>Job</th>
@@ -209,7 +209,7 @@
                                     <!-- salary -->
                                     <td>
                                         {% if job.salary %}
-                                            <span class="salary-text">$ {{ job.salary }}</span>
+                                            <span class="salary-text">${{ job.salary }}</span>
                                         {% else %}
                                             <span class="muted">N/A</span>
                                         {% endif %}

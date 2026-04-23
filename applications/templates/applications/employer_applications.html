@@ -31,7 +31,6 @@
                                     <th>Candidate</th>
                                     <th>Job</th>
                                     <th>Email</th>
-                                    <th>Phone</th>
                                     <th>Applied At</th>
                                     <th>Resume</th>
                                     <th>Status</th>
@@ -86,21 +85,10 @@
                                         </a>
                                     </td>
 
-                                    <!-- phone -->
-                                    <td class="py-3">
-                                        {% if app.candidate.phone %}
-                                            <a href="tel:{{ app.candidate.phone }}" class="table-meta email-text">
-                                                {{ app.candidate.phone }}
-                                            </a>
-                                        {% else %}
-                                            <span class="table-meta muted">N/A</span>
-                                        {% endif %}
-                                    </td>
-
                                     <!-- Applied Date -->
                                     <td>
                                         <span class="table-meta date-text">
-                                            {{ app.applied_at|date:"d M, Y" }}
+                                            {{ app.applied_at|date:"d M" }}
                                         </span>
                                     </td>
 

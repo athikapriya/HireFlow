@@ -433,27 +433,14 @@ input[type="file"].form-control:focus {
 
 
 /* =============== applied jobs starts here =============== */
-
 .applied-wrapper{
     border-radius: 12px;
 }
 
-.applied-list{
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
 .applied-item{
-    display: grid;
-    grid-template-columns: 2fr 1fr 0.8fr 0.6fr;
-    align-items: center;
-
     padding: 14px 12px;
     border: 1px solid #eef1f6;
-    border-radius: 10px;
     background: #fff;
-
     transition: all 0.25s ease;
 }
 
@@ -463,9 +450,8 @@ input[type="file"].form-control:focus {
 }
 
 .applied-left{
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    flex: 2;
+    min-width: 0;
 }
 
 .applied-left .job-title{
@@ -473,6 +459,9 @@ input[type="file"].form-control:focus {
     margin: 0;
     font-weight: 600;
     color: var(--tertiary-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .meta-line{
@@ -480,9 +469,28 @@ input[type="file"].form-control:focus {
     color: var(--secondary-color);
 }
 
+.applied-left .logo-box{
+    background: rgba(64,81,137,0.08);
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.logo-box{
+    flex-shrink: 0;
+}
+
+.logo-box > div{
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+}
+
+.applied-left .company-logo{
+    object-fit: cover;
+}
+
 .applied-middle{
-    display: flex;
-    gap: 20px;
+    flex: 1;
 }
 
 .meta-block small{
@@ -493,6 +501,10 @@ input[type="file"].form-control:focus {
 .meta-block div{
     font-size: 12.5px;
     font-weight: 500;
+}
+
+.applied-right{
+    flex: 0.8;
 }
 
 .status-badge{
@@ -518,6 +530,14 @@ input[type="file"].form-control:focus {
     color: #dc3545;
 }
 
+.status-badge .fa-check{
+    display: none;
+}
+
+.applied-action{
+    flex: 0.6;
+}
+
 .view-btn{
     display: inline-block;
     padding: 6px 12px;
@@ -537,23 +557,43 @@ input[type="file"].form-control:focus {
     color: #fff;
 }
 
-.applied-left .logo-box{
-    width: 38px;
-    height: 38px;
-    background: rgba(64,81,137,0.08);
-    border-radius: 8px;
-    padding: 4px;
-}
-
-.applied-left .company-logo{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
 .empty-state i{
     opacity: 0.5;
 }
+
+@media (max-width: 576px){
+
+    .status-badge .fa-check{
+        display: inline-block;
+    }
+
+    .applied-left .job-title{
+        white-space: normal;
+    }
+
+    .applied-item{
+        flex-wrap: wrap;
+    }
+
+    .applied-left{
+        flex: 0 0 100%;
+    }
+
+    .applied-middle{
+        flex: 0 0 100%;
+        justify-content: space-between;
+    }
+
+    .applied-right{
+        flex: 0 0 100%;
+        text-align: right;
+    }
+
+    .applied-action{
+        flex: 0 0 100%;
+    }
+}
+
 /* =============== applied jobs ends here =============== */
 
 
