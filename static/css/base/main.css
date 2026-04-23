@@ -239,7 +239,7 @@ nav hr{
 
 
 /* =============== footer starts here =============== */
-footer{
+.common-footer{
     background-color: #fff;
     position: fixed;
     bottom: 0;
