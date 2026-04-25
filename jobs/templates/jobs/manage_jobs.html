@@ -102,8 +102,8 @@
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="logo-box d-flex align-items-center justify-content-center">
-                                                {% if job.company_logo %}
-                                                    <img src="{{ job.company_logo.url }}" class="company-logo w-100 h-100" aria-label="company logo">
+                                                {% if job.employer.company_logo %}
+                                                    <img src="{{ job.employer.company_logo.url }}" class="company-logo w-100 h-100" aria-label="company logo">
                                                 {% else %}
                                                     <img src="{% static 'images/default_logo.png' %}" class="company-logo w-100 h-100" aria-label="default logo">
                                                 {% endif %}
@@ -111,7 +111,9 @@
 
                                             <div class="d-flex flex-column">
                                                 <span class="fw-medium">{{ job.title }}</span>
-                                                <small class="table-meta">{{ job.company_name }}</small>
+                                                {% if job.employer.company_name %}
+                                                    <small class="table-meta">{{ job.employer.company_name }}</small>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </td>

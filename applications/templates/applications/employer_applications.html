@@ -24,7 +24,6 @@
                 <div class="main-section__body">
 
                     <div class="table-responsive">
-                        {% if applications %}
                         <table class="table table-sm align-middle table-nowrap table-hover">
                             <thead class="table-secondary">
                                 <tr>
@@ -74,7 +73,9 @@
                                     <td>
                                         <div class="d-flex flex-column">
                                             <span class="fw-medium">{{ app.job.title }}</span>
-                                            <small class="table-meta">{{ app.job.company_name }}</small>
+                                            {% if app.job.employer.company_name %}
+                                                <small class="table-meta">{{ app.job.employer.company_name }}</small>
+                                            {% endif %}
                                         </div>
                                     </td>
 
@@ -133,13 +134,16 @@
                                     </td>
 
                                 </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-3 bg-light">
+                                        No application found.
+                                    </td>
+                                </tr>
                                 {% endfor %}
                             </tbody>
                             
                         </table>
-                        {% else %}
-                            <p>No applications yet.</p>
-                        {% endif %}
                     </div>
 
                     

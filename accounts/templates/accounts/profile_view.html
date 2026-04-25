@@ -195,7 +195,17 @@
                             <div class="col-md-6">
                                 <div class="info-box">
                                     <label>Company Name</label>
-                                    <p>{{ user.company_name|default:"Not added" }}</p>
+
+                                    <div class="d-flex gap-1 align-items-center">
+                                        {% if user.company_logo %}
+                                            <div style="height: 20px; width: 20px;">
+                                                <img src="{{ user.company_logo.url }}" class="company-logo-img h-100 w-100 " alt="Company Logo">
+                                            </div>
+                                        {% else %}
+                                            <img src="{% static 'images/default_logo.png' %}" class="company-logo-img" alt="Company Logo">
+                                        {% endif %}
+                                        <p class="mb-0 mt-2">{{ user.company_name|default:"Not added" }}</p>
+                                    </div>
                                 </div>
                             </div>
 

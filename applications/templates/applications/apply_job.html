@@ -23,12 +23,12 @@
                     <div class="d-flex align-items-center gap-3 mb-3">
 
                         <div class="logo-box bg-light rounded d-flex align-items-center justify-content-center">
-                            {% if job.company_logo %}
-                                <div style="height: 40; width: 40;">
-                                    <img src="{{ job.company_logo.url }}" class="company-logo h-100 w-100" aria-label="company logo" >
+                            {% if job.employer.company_logo %}
+                                <div style="height: 25px; width: 25px;">
+                                    <img src="{{ job.employer.company_logo.url }}" class="company-logo h-100 w-100" aria-label="company logo" >
                                 </div>
                             {% else %}
-                                <div style="height: 40; width: 40;">
+                                <div style="height: 25px; width: 25px;">
                                     <img src="{% static 'images/default_logo.png' %}" alt="logo" class="h-100 w-100">
                                 </div>
                             {% endif %}
@@ -36,7 +36,7 @@
 
                         <div>
                             <h5 class="mb-0">{{ job.title }}</h5>
-                            <small class="text-muted">{{ job.company_name }}</small>
+                            <small class="text-muted">{{ job.employer.company_name }}</small>
                         </div>
 
                     </div>

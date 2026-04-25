@@ -20,12 +20,12 @@
             <div class="d-flex gap-3 align-items-center">
 
                 <div class="logo-box-lg">
-                    {% if job.company_logo %}
-                        <div style="height: 40; width: 40;">
-                            <img src="{{ job.company_logo.url }}" class="company-logo h-100 w-100" aria-label="company logo">
+                    {% if job.employer.company_logo %}
+                        <div style="height: 30px; width: 30px;">
+                            <img src="{{ job.employer.company_logo.url }}" class="company-logo h-100 w-100" aria-label="company logo">
                         </div>
                     {% else %}
-                    <div style="height: 40; width: 40;">
+                    <div style="height: 30px; width: 30px;">
                         <img src="{% static 'images/default_logo.png' %}" class="company-logo h-100 w-100" aria-label="default logo">
                     </div>
                     {% endif %}
@@ -35,7 +35,7 @@
                     <h4 class="fw-semibold mb-2 main-heading">{{ job.title }}</h4>
 
                     <div class="text-muted small d-flex flex-wrap gap-2 align-items-center">
-                        <span><i class="fa-solid fa-building"></i> {{ job.company_name }}</span>
+                        <span><i class="fa-solid fa-building"></i> {{ job.employer.company_name }}</span>
                         <span>•</span>
                         <span><i class="fa-solid fa-location-dot"></i> {{ job.location|default:"Remote" }}</span>
                     </div>

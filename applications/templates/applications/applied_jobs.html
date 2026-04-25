@@ -46,12 +46,12 @@
                             <div class="applied-left d-flex align-items-center gap-4">
 
                                 <div class="logo-box">
-                                    {% if app.job.company_logo %}
-                                        <div style="height: 40; width: 40;">
-                                            <img src="{{ app.job.company_logo.url }}" class="company-logo h-100 w-100" aria-label="company logo">
+                                    {% if app.job.employer.company_logo %}
+                                        <div style="height: 25px; width: 25px;">
+                                            <img src="{{ app.job.employer.company_logo.url }}" class="company-logo h-100 w-100" aria-label="company logo">
                                         </div>
                                     {% else %}
-                                    <div style="height: 40; width: 40;">
+                                    <div style="height: 25px; width: 25px;">
                                         <img src="{% static 'images/default_logo.png' %}" class="company-logo h-100 w-100" aria-label="default logo">
                                     </div>
                                     {% endif %}
@@ -60,7 +60,7 @@
                                 <div class="me-5">
                                     <h6 class="job-title" style="white-space: wrap;">{{ app.job.title }}</h6>
                                     <div class="meta-line">
-                                        {{ app.job.company_name }} • {{ app.job.location }}
+                                        {{ app.job.employer.company_name }} • {{ app.job.location }}
                                     </div>
                                 </div>
 

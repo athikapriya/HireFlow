@@ -51,18 +51,18 @@
 
                                                     <!-- Company Logo -->
                                                     <div class="avatar-box">
-                                                        {% if app.job.company_logo %}
-                                                            <img src="{{ app.job.company_logo.url }}"
+                                                        {% if app.job.employer.company_logo %}
+                                                            <img src="{{ app.job.employer.company_logo.url }}"
                                                                 class="rounded-circle"
-                                                                width="32"
-                                                                height="32"
+                                                                width="25"
+                                                                height="25"
                                                                 style="object-fit: cover;"
                                                                 aria-label="Company Logo">
                                                         {% else %}
                                                             <img src="{% static 'images/default_logo.png' %}"
                                                                 class="rounded-circle"
-                                                                width="32"
-                                                                height="32"
+                                                                width="25"
+                                                                height="25"
                                                                 style="object-fit: cover;"
                                                                 aria-label="Company Logo">
                                                         {% endif %}
@@ -71,7 +71,9 @@
                                                     <!-- Job Info -->
                                                     <div class="d-flex flex-column">
                                                         <span class="fw-semibold">{{ app.job.title }}</span>
-                                                        <small class="text-muted">{{ app.job.company_name }}</small>
+                                                        {% if app.job.employer.company_name %}
+                                                            <small class="text-muted">{{ app.job.employer.company_name }}</small>
+                                                        {% endif %}
                                                     </div>
 
                                                 </div>
@@ -107,7 +109,7 @@
                                         {% endfor %}
                                     {% else %}
                                         <tr>
-                                            <td colspan="4" class="text-center">No recent applications</td>
+                                            <td colspan="4" class="text-center text-muted py-4 bg-light">No recent applications</td>
                                         </tr>
                                     {% endif %}
                                 </tbody>
@@ -162,8 +164,8 @@
                                         <div class="d-flex align-items-center gap-2">
 
                                             <div class="avatar-box">
-                                                {% if job.company_logo %}
-                                                    <img src="{{ job.company_logo.url }}"
+                                                {% if job.employer.company_logo %}
+                                                    <img src="{{ job.employer.company_logo.url }}"
                                                         class="rounded-circle"
                                                         width="32"
                                                         height="32"
@@ -179,7 +181,9 @@
 
                                             <div class="d-flex flex-column">
                                                 <span class="fw-semibold">{{ job.title }}</span>
-                                                <small class="text-muted">{{ job.company_name }}</small>
+                                                {% if job.employer.company_name %}
+                                                    <small class="text-muted">{{ job.employer.company_name }}</small>
+                                                {% endif %}
                                             </div>
 
                                         </div>
@@ -247,7 +251,7 @@
 
                                 {% empty %}
                                 <tr>
-                                    <td colspan="6" class="text-center text-muted py-3">
+                                    <td colspan="7" class="text-center text-muted py-4 bg-light">
                                         No recommended jobs available
                                     </td>
                                 </tr>

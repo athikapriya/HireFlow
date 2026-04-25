@@ -49,8 +49,8 @@
 
                                                 <!-- Company Logo -->
                                                 <div class="avatar-box">
-                                                    {% if job.company_logo %}
-                                                        <img src="{{ job.company_logo.url }}"
+                                                    {% if job.employer.company_logo %}
+                                                        <img src="{{ job.employer.company_logo.url }}"
                                                             class="rounded-circle"
                                                             width="25"
                                                             height="25"
@@ -69,7 +69,9 @@
                                                 <!-- Job Info -->
                                                 <div class="d-flex flex-column">
                                                     <span class="fw-medium">{{ job.title }}</span>
-                                                    <small class="text-muted">{{ job.company_name }}</small>
+                                                    {% if job.employer.company_name %}
+                                                        <small class="text-muted">{{ job.employer.company_name }}</small>
+                                                    {% endif %}
                                                 </div>
 
                                             </div>
@@ -98,7 +100,7 @@
 
                                     {% empty %}
                                     <tr>
-                                        <td colspan="7" class="text-center text-muted py-3">
+                                        <td colspan="7" class="text-center text-muted py-3 bg-light">
                                             No jobs found.
                                         </td>
                                     </tr>
@@ -182,7 +184,7 @@
                                 <td class="py-3">
                                     <div class="d-flex flex-column">
                                         <span class="fw-medium">{{ app.job.title }}</span>
-                                        <small class="text-muted">{{ app.job.company_name }}</small>
+                                        <small class="text-muted">{{ app.job.employer.company_name }}</small>
                                     </div>
                                 </td>
 
@@ -250,7 +252,7 @@
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="6" class="text-center text-muted py-4">
+                                <td colspan="10" class="text-center text-muted py-4 bg-light">
                                     No applications
                                 </td>
                             </tr>
