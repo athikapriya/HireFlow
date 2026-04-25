@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from cloudinary.models import CloudinaryField
 
 
 # =============== Skill model =============== 
@@ -40,8 +39,6 @@ class Job(models.Model):
     salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     employment_type = models.CharField(max_length=2, choices=EMPLOYMENT_CHOICES, default="FT")
     experience = models.CharField(max_length=50, choices=EXPERIENCE_REQUIRED, default="0-1 year")
-
-    company_logo = CloudinaryField('image', blank=True, null=True)
 
     skills = models.ManyToManyField(Skill, related_name="jobs")
 

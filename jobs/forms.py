@@ -20,7 +20,6 @@ class JobForm(ModelForm):
     class Meta:
         model = Job
         fields = [
-            "company_name",
             "title",
             "salary",
             "location",
@@ -28,14 +27,9 @@ class JobForm(ModelForm):
             "experience",
             "skills",
             "description",
-            "company_logo",
             "deadline",
         ]
         widgets = {
-            "company_name": TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Enter company name"
-            }),
             "title": TextInput(attrs={
                 "class": "form-control",
                 "placeholder": "Enter job title"
@@ -58,9 +52,6 @@ class JobForm(ModelForm):
                 "class": "form-control",
                 "placeholder": "Enter job description",
                 "rows": 3,
-            }),
-            "company_logo": FileInput(attrs={
-                "class": "form-control"
             }),
             "deadline": DateInput(attrs={
                 "class": "form-control",
