@@ -88,10 +88,17 @@ def logout_user(request):
 @employer_required
 def employer_dashboard(request):
     page_title = "Dashboard"
+    query = request.GET.get("q")
 
-    jobs = Job.objects.filter(employer=request.user) \
-        .annotate(application_count=Count('applications')) \
-        .order_by('-updated_at')
+    jobs = Job.objects.filter(employer=request.user)
+
+    if query:
+        jobs = jobs.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query)
+        )
+
+    jobs = jobs.annotate(application_count=Count('applications')).order_by('-updated_at')
 
     total_jobs = jobs.count()
     active_jobs = jobs.filter(is_active=True).count()
@@ -100,26 +107,21 @@ def employer_dashboard(request):
     latest_jobs = jobs[:5]
 
     total_applications = Application.objects.filter(job__in=jobs).count()
-
-    total_hired = Application.objects.filter(
-        job__in=jobs,
-        status="accepted"
-    ).count()
-
-    total_rejected = Application.objects.filter(
-        job__in=jobs,
-        status="rejected"
-    ).count()
-
-    total_pending = Application.objects.filter(
-        job__in=jobs,
-        status="pending"
-    ).count()
+    total_hired = Application.objects.filter(job__in=jobs, status="accepted").count()
+    total_rejected = Application.objects.filter(job__in=jobs, status="rejected").count()
+    total_pending = Application.objects.filter(job__in=jobs, status="pending").count()
 
     recent_applications = Application.objects.filter(
         job__employer=request.user
-    ).select_related('candidate', 'job') \
-    .order_by('-applied_at')[:7]
+    ).select_related('candidate', 'job').order_by('-applied_at')
+
+    if query:
+        recent_applications = recent_applications.filter(
+            Q(job__title__icontains=query) |
+            Q(candidate__username__icontains=query)
+        )
+
+    recent_applications = recent_applications[:7]
 
     pie_labels = ["Jobs", "Applications", "Hired", "Rejected", "Pending"]
     pie_data = [
@@ -131,27 +133,24 @@ def employer_dashboard(request):
     ]
 
     context = {
-        # jobs
         "jobs": latest_jobs,
         "total_jobs": total_jobs,
         "active_jobs": active_jobs,
         "closed_jobs": closed_jobs,
 
-        # applications
         "total_applications": total_applications,
         "total_hired": total_hired,
         "total_rejected": total_rejected,
         "total_pending": total_pending,
 
-        # pie chart 
         "pie_labels": pie_labels,
         "pie_data": pie_data,
 
-        # tables
         "recent_applications": recent_applications,
 
-        # ui
         "page_title": page_title,
+        "query": query,
+        "show_topbar_search": True,
     }
 
     return render(request, 'accounts/employer_dashboard.html', context)
@@ -162,30 +161,45 @@ def employer_dashboard(request):
 @candidate_required
 def candidate_dashboard(request):
     page_title = "Dashboard"
-    user = request.user 
+    user = request.user
 
-    # stats
-    total_applied = Application.objects.filter(candidate=request.user).count()
-    total_accepted = Application.objects.filter(candidate=request.user, status="accepted").count()
-    total_pending = Application.objects.filter(candidate=request.user, status="pending").count()
-    total_rejected = Application.objects.filter(candidate=request.user, status="rejected").count()
+    query = request.GET.get("q", "").strip()
 
-    recent_applications = Application.objects.filter(candidate=request.user)\
-                            .select_related('job', 'job__employer')\
-                            .order_by('-applied_at')[:5]
+    total_applied = Application.objects.filter(candidate=user).count()
+    total_accepted = Application.objects.filter(candidate=user, status="accepted").count()
+    total_pending = Application.objects.filter(candidate=user, status="pending").count()
+    total_rejected = Application.objects.filter(candidate=user, status="rejected").count()
 
-    # for recommended jobs
+    recent_applications = Application.objects.filter(
+        candidate=user
+    ).select_related('job', 'job__employer')
+
+    if query:
+        recent_applications = recent_applications.filter(
+            Q(job__title__icontains=query) |
+            Q(job__description__icontains=query) |
+            Q(job__employer__username__icontains=query)
+        )
+
+    recent_applications = recent_applications.order_by('-applied_at')[:5]
+
+    applied_job_ids = Application.objects.filter(
+        candidate=user
+    ).values_list('job_id', flat=True)
+
+    jobs_qs = Job.objects.filter(is_active=True).exclude(id__in=applied_job_ids)
+
+    if query:
+        jobs_qs = jobs_qs.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query) |
+            Q(employer__username__icontains=query)
+        )
+
     user_skills = []
     if user.skills:
         user_skills = [s.strip().lower() for s in user.skills.split(",")]
 
-    jobs_qs = Job.objects.filter(is_active=True).prefetch_related('skills')
-
-    # exclude already applied jobs
-    applied_job_ids = Application.objects.filter(candidate=user).values_list('job_id', flat=True)
-    jobs_qs = jobs_qs.exclude(id__in=applied_job_ids)
-
-    # filter
     if user_skills:
         skill_query = Q()
         for skill in user_skills:
@@ -195,7 +209,6 @@ def candidate_dashboard(request):
 
     recommended_jobs = jobs_qs[:6]
 
-    # score matching
     def calculate_match(job, user_skills):
         job_skills = [s.name.lower() for s in job.skills.all()]
         if not job_skills:
@@ -211,17 +224,20 @@ def candidate_dashboard(request):
 
     context = {
         "page_title": page_title,
+
         "total_applied": total_applied,
         "total_accepted": total_accepted,
         "total_pending": total_pending,
         "total_rejected": total_rejected,
-        "recent_applications": recent_applications,
 
         "recent_applications": recent_applications,
         "recommended_jobs": recommended_jobs,
 
         "today": today,
         "upcoming_deadline": upcoming_deadline,
+
+        "query": query,
+        "show_topbar_search": True,
     }
 
     return render(request, 'accounts/candidate_dashboard.html', context)

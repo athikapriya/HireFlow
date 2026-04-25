@@ -53,6 +53,7 @@ def manage_jobs(request):
         "total_jobs_filtered": total_jobs_filtered,
         "total_jobs_all": total_jobs_all,
         "today": today,
+        "show_topbar_search": True,
     }
     return render(request, "jobs/manage_jobs.html", context)
 
@@ -199,6 +200,7 @@ def browse_jobs(request):
         "total_jobs_filtered": total_jobs_filtered,
         "total_jobs_all": total_jobs_all,
         "applied_job_ids": applied_job_ids,
+        "show_topbar_search": True,
     }
     return render(request, 'jobs/browse_jobs.html', context)
 
