@@ -22,13 +22,14 @@ class User(AbstractUser):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     profile_image = CloudinaryField('image', blank=True, null=True)
 
-    phone = models.CharField(max_length=20, null=True, blank=True, validators=[phone_validator])
+    phone = models.CharField(max_length=11, null=True, blank=True, validators=[phone_validator])
     location = models.CharField(max_length=100, null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     website = models.URLField(null=True, blank=True)
 
     # employer
-    company_name = models.CharField(max_length=150, null=True, blank=True)
+    company_name = models.CharField(max_length=150)
+    company_logo = CloudinaryField('image')
     company_website = models.URLField(null=True, blank=True)
     industry = models.CharField(max_length=100, null=True, blank=True)
 
