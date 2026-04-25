@@ -1,4 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
+from django.forms import FileInput
 from django import forms
 
 
@@ -186,7 +187,7 @@ class EmployerProfileForm(forms.ModelForm):
         fields = [
             "username", "email", "designation", "profile_image",
             "phone", "location", "bio",
-            "company_name", "company_website", "industry"
+            "company_name", "company_logo", "company_website", "industry"
         ]
 
         widgets = {
@@ -227,6 +228,10 @@ class EmployerProfileForm(forms.ModelForm):
             "company_name": forms.TextInput(attrs={
                 "class": "form-control",
                 "placeholder": "Company name"
+            }),
+
+            "company_logo": FileInput(attrs={
+                "class": "form-control"
             }),
 
             "company_website": forms.URLInput(attrs={
